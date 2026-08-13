@@ -6,12 +6,14 @@ export const bookFlow = {
   id: "bookflow",
   name: "Book Flow",
   shortDescription:
-    "Every WooCommerce order, synced to QuickBooks and Xero as a real transaction — not a batch summary you have to untangle later.",
-  fullDescription: `If you've ever tried to reconcile a WooCommerce store against QuickBooks or Xero, you know the problem: most sync tools dump your orders in as one giant summary entry per day. Great for a glance, useless when a customer disputes a charge or your accountant asks "where did this number come from?"
+    "Every WooCommerce order synced to QuickBooks or Xero as its own real transaction, matched to the actual payout, down to the fee and the penny of tax.",
+  fullDescription: `Most WooCommerce sync tools batch your orders into one summary entry per day. That's fine until a customer disputes a charge, a payout doesn't match what WooCommerce says you made, or your accountant asks where a number came from, and you're stuck opening a lump sum with a hundred orders buried inside it.
 
-BookFlow does it differently. Every order, refund, fee, and payout gets synced as its own transaction, linked back to the exact WooCommerce order it came from. Open any line in QuickBooks or Xero and trace it straight to the source — no spreadsheets, no guessing, no end-of-month archaeology.
+BookFlow syncs every order the moment it happens, as its own Sales Receipt, Invoice, Refund Receipt, or Credit Memo in QuickBooks or Xero, never as an aggregated journal entry. Each document links straight back to the WooCommerce order it came from, so if something looks off, you can trace it in seconds instead of digging through a spreadsheet at month end.
 
-It runs in real time, so your books reflect what's happening in your store right now, not what happened three batch-syncs ago. Connect your store, map your accounts once, and BookFlow handles the rest — quietly, accurately, every time an order comes in.`,
+Payouts get the same treatment. When Stripe, PayPal, or WooCommerce Payments sends you money, BookFlow records it as a real deposit with fees and chargebacks itemized, and flags anything that doesn't reconcile against what WooCommerce actually collected. Tax is recorded exactly as WooCommerce calculated it, so your tax liability reports tie out without manual adjustments.
+
+Setup takes one pass through a guided wizard that maps your chart of accounts automatically. You can adjust any mapping by hand if your books need it, but you don't have to touch a single field to get started.`,
   category: "plugin",
   platform: ["woocommerce", "quickbooks", "xero"],
   statusId: productStatuses.development.id,
@@ -26,39 +28,39 @@ It runs in real time, so your books reflect what's happening in your store right
   screenshots: [],
   features: [
     {
-      title: "Real-Time Order Sync",
+      title: "Syncs the moment an order happens",
       description:
-        "Orders land in QuickBooks or Xero the moment they happen in WooCommerce — no waiting on a nightly batch.",
+        "No hourly or nightly batch. Orders, refunds, and payouts show up in QuickBooks or Xero as they occur, driven by WooCommerce webhooks.",
       icon: "zap",
     },
     {
-      title: "A Real Audit Trail",
+      title: "One order, one document",
       description:
-        "Every synced transaction stays linked to its original order, so you can always trace a number back to where it came from.",
+        "Every order becomes its own Sales Receipt, Invoice, Refund Receipt, or Credit Memo, never folded into a summary entry you can't unpack.",
       icon: "file-search",
     },
     {
-      title: "Reconciliation That Just Works",
+      title: "Payouts that reconcile themselves",
       description:
-        "Payouts, fees, refunds, and adjustments get matched automatically, so your books match reality without the manual cleanup.",
+        "Every deposit is matched against what WooCommerce says was collected, with fees and chargebacks broken out and mismatches flagged automatically.",
       icon: "refresh-ccw",
     },
     {
-      title: "Numbers You Can Trust",
+      title: "Tax that ties out",
       description:
-        "Taxes, discounts, shipping, and fees are recorded correctly the first time — no more end-of-month corrections.",
+        "Records the exact tax WooCommerce, WooCommerce Tax, or Avalara collected on each order, so your tax reports don't need a manual fix afterward.",
       icon: "receipt",
     },
     {
-      title: "Set Up in Minutes",
+      title: "Set up without an accountant",
       description:
-        "A guided setup walks you through connecting your store and accounts — built for store owners, not just developers.",
+        "A guided wizard connects your store and auto-maps your chart of accounts. Manual overrides are there if you need them, not required if you don't.",
       icon: "settings",
     },
     {
-      title: "Built to Scale",
+      title: "Handles a flash sale without dropping orders",
       description:
-        "Whether you're processing 10 orders a day or 10,000, BookFlow's architecture keeps every sync accurate.",
+        "A queue-based backend absorbs order spikes and retries failed syncs on its own, so nothing gets lost when volume jumps.",
       icon: "trending-up",
     },
   ],
