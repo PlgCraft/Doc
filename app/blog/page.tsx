@@ -105,6 +105,7 @@ export default async function Home({ searchParams }: Parms) {
                       >
                         <div className="flex gap-2">
                           {b.data.tags.map(tag => <span
+                            key={tag}
                             className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
                             style={{ backgroundColor: accentColor }}
                           >

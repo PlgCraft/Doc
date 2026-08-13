@@ -82,7 +82,7 @@ const BlogCard = ({
   featured: boolean;
 }) => {
 
-const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
+  const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -100,6 +100,7 @@ const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
         >
           <div className="flex gap-2">
             {blog.tags.map(tag => <span
+              key={tag}
               className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
               style={{ backgroundColor: blog.accentColor }}
             >
