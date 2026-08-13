@@ -18,10 +18,10 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
 
   const formattedDate = page.data.date
     ? new Date(page.data.date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
     : "";
 
   const url = `${siteConfig.url}/blog/${params.slug}`;
@@ -36,7 +36,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
             url,
             datePublished: new Date(page.data.date).toISOString(),
             author: page.data.author,
-            keywords: [page.data.category, page.data.tag].filter(Boolean),
+            keywords: [page.data.category, page.data.tags.join(",")].filter(Boolean),
           }),
           buildBreadcrumbJsonLd([
             { name: "Home", url: siteConfig.url },
@@ -252,9 +252,12 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
                           href={post.url}
                           className="border-2 border-black bg-white p-4 hover:shadow-[4px_4px_0px_0px_#000] transition-all hover:-translate-y-0.5"
                         >
-                          <div className="font-mono text-xs uppercase tracking-wider text-gray-500 mb-2">
-                            {post.data.tag}
-                          </div>
+                          <div className="flex gap-2">
+                          {post.data.tags.map(tag =>
+                            <p className="font-mono text-xs uppercase tracking-wider text-gray-500 mb-2">
+                              {tag},
+                            </p>)}
+                            </div>
                           <h4 className="font-black text-lg uppercase mb-2 hover:text-red-500 transition-colors">
                             {post.data.title}
                           </h4>

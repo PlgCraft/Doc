@@ -1,0 +1,206 @@
+---
+title: "Why I Build Small Software That Solves Real Problems"
+description: "Why I will focuse on practical plugins, integrations, and software tools that solve specific business problems without unnecessary complexity."
+author: "Ali Amer"
+tags: [ "plugins", "integrations", "automation"]
+category: General
+date: 2026-08-13
+featured: true
+---
+
+There is no shortage of software.
+
+There is software for managing projects, software for tracking customers, software for sending invoices, software for connecting other software, and sometimes software for managing the software you already use.
+
+Yet, for many businesses, the problem is not a lack of software.
+
+It is getting the software they already use to work together.
+
+A customer places an order in one system. The payment is recorded somewhere else. Accounting lives in another application. Someone then spends part of their day moving information between them.
+
+None of these tasks are particularly difficult.
+
+They are just repetitive.
+
+This is where I think good software can make a real difference.
+
+## Why PlgCraft exists
+
+PlgCraft is a small software studio focused on building plugins, integrations, and tools around practical problems.
+
+The idea is fairly simple: **find one problem, understand it properly, and build something that solves it well.**
+
+I'me not interested in adding features just because a competitor has them.
+
+I'me not trying to build enormous dashboards that require a training session before anyone can use them.
+
+And I definitely don't want software that becomes another thing a business has to constantly maintain.
+
+The goal is much simpler.
+
+Build something useful, make it reliable, and let it get out of the way.
+
+## The problem with "more features"
+
+Software often grows in a predictable way.
+
+A product starts with a useful idea. Then someone asks for another option. Then another integration. Then another settings page. Eventually, a simple tool becomes a complicated system with dozens of menus and hundreds of configuration options.
+
+Sometimes that complexity is necessary.
+
+Often, it isn't.
+
+A business owner usually doesn't care how many features a plugin has. They care whether the thing they need actually works.
+
+If an online store needs its orders sent to an accounting platform, the important questions are straightforward:
+
+- Did the order sync?
+- Did the amount match?
+- Was the correct document created?
+- What happens if the sync fails?
+- Can I see what happened later?
+
+Those questions matter much more than a long feature list.
+
+That is the kind of software I want to build.
+
+## Integrations should feel boring
+
+A good integration is almost invisible.
+
+When everything works, nobody thinks about it.
+
+An order is created, the information moves to another system, and the business continues working.
+
+That's the ideal.
+
+The difficult part is everything that happens when things don't go perfectly.
+
+What happens when an API is temporarily unavailable?
+
+What if the same webhook arrives twice?
+
+What if an order changes after it was already synchronized?
+
+What if a payment is refunded?
+
+What if one system calls something an invoice while another system has a completely different concept for the same word?
+
+These details are where reliable integrations are made.
+
+Writing the HTTP request is usually the easy part.
+
+Handling everything around that request is the real engineering work.
+
+## Automation should remove work, not create more of it
+
+I like automation when it removes a task that humans shouldn't have to do in the first place.
+
+For example, copying order information from an ecommerce platform into accounting software is a good candidate for automation.
+
+A person can do it.
+
+But there is little value in having a person do it hundreds of times.
+
+The same is true for notifications, data synchronization, repetitive exports, document creation, and many other small processes that appear harmless individually but consume a surprising amount of time over a month or a year.
+
+Good automation gives that time back.
+
+The important part is that automation also needs to be predictable.
+
+A system that saves ten minutes every day but occasionally creates incorrect financial records is not good automation.
+
+Reliability comes first.
+
+## Building software around the real workflow
+
+One thing I have learned from working on integrations is that the documentation rarely tells the whole story.
+
+An API can tell you what an endpoint accepts.
+
+It doesn't necessarily tell you how that endpoint behaves when a real business process changes.
+
+For example, an ecommerce order might start as unpaid, become paid later, get partially refunded, and eventually be cancelled.
+
+The software needs to understand those transitions.
+
+The same applies to plugins.
+
+A WordPress plugin might look simple from the outside, but once it interacts with WooCommerce, payment providers, external APIs, webhooks, background jobs, and databases, there are a lot of edge cases to consider.
+
+That is why I prefer to start with the workflow rather than the feature list.
+
+First understand what is actually happening.
+
+Then decide what the software needs to do.
+
+## Small doesn't mean simple
+
+There is an important distinction between a small product and a simple product.
+
+A small product can solve a very specific problem while still requiring serious engineering underneath.
+
+A plugin that synchronizes orders between two platforms might have a relatively small interface.
+
+Behind that interface, however, there may be authentication, API versioning, retries, webhooks, idempotency, background processing, error handling, logging, database consistency, and data mapping.
+
+The user shouldn't have to think about all of that.
+
+That's our job.
+
+The complexity should live in the implementation, not in the user's workflow.
+
+## What I will write about
+
+This blog will be a place to share what I are building and what I learn along the way.
+
+That means there will be posts about:
+
+- Plugins and extensions
+- WordPress and WooCommerce
+- Software integrations
+- API design
+- Automation and background jobs
+- Accounting integrations
+- Building small SaaS products
+- Engineering decisions and tradeoffs
+- Problems I encounter while building products
+- Product releases and updates
+
+Some posts will be technical.
+
+Others will be about products, ideas, or lessons learned from building them.
+
+I don't want this to become a collection of generic software articles written for search engines.
+
+If I write about something, there should be a reason for it.
+
+Maybe I built something and learned an interesting lesson.
+
+Maybe I found a problem that other developers are dealing with.
+
+Maybe I released a new product.
+
+Maybe I simply have a strong opinion about how something should be built.
+
+## Building software that earns its place
+
+Every business has enough tools already.
+
+The last thing I want to do is add another piece of software that nobody really needs.
+
+Instead, I want to build tools that earn their place in a workflow.
+
+Something that removes a manual task.
+
+Something that connects two systems that should have been connected in the first place.
+
+Something that makes a process more reliable.
+
+Something small that quietly saves someone time every day.
+
+That's the kind of software I want PlgCraft to be known for.
+
+**Useful software. Thoughtfully built. Nothing unnecessary.**
+
+That's the idea behind PlgCraft, and it's what I'll be building from here.

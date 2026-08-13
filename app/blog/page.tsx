@@ -103,12 +103,14 @@ export default async function Home({ searchParams }: Parms) {
                         className="border-b-4 border-black p-5 flex items-center justify-between"
                         style={{ backgroundColor: `${accentColor}20` }}
                       >
-                        <span
-                          className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
-                          style={{ backgroundColor: accentColor }}
-                        >
-                          {b.data.tag}
-                        </span>
+                        <div className="flex gap-2">
+                          {b.data.tags.map(tag => <span
+                            className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
+                            style={{ backgroundColor: accentColor }}
+                          >
+                            {tag}
+                          </span>)}
+                        </div>
                         <BookOpen size={20} className="text-black" />
                       </div>
 

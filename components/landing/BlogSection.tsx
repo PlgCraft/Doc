@@ -6,7 +6,9 @@ import Link from "next/link";
 import { BlogCardContainer } from "./AnimatedContainer";
 
 export const BlogsSection = () => {
-  const blogs = blog.getPages();
+  const blogs = blog.getPages()?.sort(
+    (a, b) => Number(b.data.featured) - Number(a.data.featured)
+  );
   if (!blogs || blogs.length === 0) return null;
 
   return (
@@ -38,9 +40,10 @@ export const BlogsSection = () => {
                 ...blog.data,
                 accentColor: ACCENTCOLOR[i],
                 url: blog.url,
+
               }}
               index={i + 5}
-              featured={i === 0}
+              featured={blog.data.featured}
             />
           ))}
         </div>
@@ -64,7 +67,7 @@ type Blog = {
   date: string | Date;
   description?: string | undefined;
   accentColor: string;
-  tag: string;
+  tags: string[];
   category: string;
   url: string;
 };
@@ -78,6 +81,8 @@ const BlogCard = ({
   index: number;
   featured: boolean;
 }) => {
+  console.log(`title : ${blog.title}, featured :${featured}`)
+
   const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -94,12 +99,14 @@ const BlogCard = ({
           className="border-b-4 border-black p-6 flex items-center justify-between"
           style={{ backgroundColor: `${blog.accentColor}20` }}
         >
-          <span
-            className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
-            style={{ backgroundColor: blog.accentColor }}
-          >
-            {blog.tag}
-          </span>
+          <div className="flex gap-2">
+            {blog.tags.map(tag => <span
+              className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
+              style={{ backgroundColor: blog.accentColor }}
+            >
+              {tag}
+            </span>)}
+          </div>
           <BookOpen size={featured ? 28 : 22} className="text-black" />
         </div>
 

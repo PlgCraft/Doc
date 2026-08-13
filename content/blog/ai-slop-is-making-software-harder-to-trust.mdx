@@ -1,0 +1,318 @@
+---
+title: "AI Slop Is Making Software Harder to Trust"
+description: "AI can help people build software faster, but blindly shipping AI-generated plugins and tools creates a growing problem: software slop that is difficult to trust, maintain, and review."
+author: "Ali Amer"
+tags: ["ai-slop", "vibe-coding", "plugins"]
+category: General
+date: 2026-08-11
+---
+
+AI has made it incredibly easy to build software.
+
+That is both a good thing and a problem.
+
+Someone who has never written a plugin before can now describe an idea to an AI tool, paste the generated code into a project, ask it to fix a few errors, and have something running in an afternoon.
+
+A few years ago, that would have required learning how the software worked.
+
+Today, you can sometimes skip that part.
+
+And that is where things get interesting.
+
+## I don't think AI is the problem
+
+Let's get this out of the way first.
+
+I use AI.
+
+I think AI is useful.
+
+It is great for exploring an unfamiliar API, getting a rough implementation started, explaining an error, writing repetitive code, generating tests, and helping think through an approach.
+
+A good developer with AI can often move much faster than they could before.
+
+The problem isn't using AI to write code.
+
+The problem is **shipping code you don't understand because AI wrote it for you.**
+
+There is a big difference between those two things.
+
+## The rise of vibe coding
+
+There is a new style of building software that has become popular: vibe coding.
+
+The basic idea is simple.
+
+You describe what you want.
+
+The AI writes the code.
+
+You run it.
+
+Something breaks.
+
+You paste the error back into the AI.
+
+It changes the code.
+
+You run it again.
+
+Eventually, it works.
+
+At least, it looks like it works.
+
+For a small experiment, that's completely fine.
+
+Actually, I think it's pretty exciting.
+
+It lowers the barrier to experimentation and lets people turn ideas into working prototypes without spending months learning a programming language first.
+
+The problem starts when the prototype becomes a product.
+
+A working demo is not necessarily good software.
+
+## When the demo becomes a plugin
+
+Imagine someone wants a WooCommerce plugin.
+
+They don't have a technical background, but they have an idea for a feature that they think store owners will need.
+
+They ask an AI to build it.
+
+The AI generates the plugin.
+
+They install it.
+
+The button appears.
+
+The feature works.
+
+So they publish it.
+
+Now imagine hundreds or thousands of stores installing it.
+
+Suddenly the things that didn't matter during the first afternoon matter a lot.
+
+What happens when WooCommerce changes something?
+
+What happens when two plugins modify the same data?
+
+What happens when an API request fails halfway through?
+
+What happens when a webhook is delivered twice?
+
+What happens when a customer refunds an order?
+
+What happens when the store has 50,000 orders instead of 50?
+
+What happens when the plugin has been running for six months and the original developer isn't sure why half of the code exists?
+
+These are not AI problems.
+
+They are software engineering problems.
+
+AI just makes it much easier to create software before understanding them.
+
+## This is where the slop comes from
+
+I don't mean "slop" as an insult toward people who use AI.
+
+I'm talking about the result.
+
+Software slop is what happens when producing software becomes easier than understanding software.
+
+You can see the same pattern everywhere.
+
+Generate a plugin.
+
+Generate an admin page.
+
+Generate some settings.
+
+Generate an API integration.
+
+Generate a README.
+
+Generate a landing page.
+
+Generate a few screenshots.
+
+Publish it.
+
+The result can look surprisingly professional.
+
+That's what makes the problem difficult.
+
+Bad software used to be easier to recognize.
+
+Now it can have a polished interface, a convincing website, good documentation, and hundreds of lines of code behind it.
+
+The surface looks finished.
+
+The engineering underneath may not be.
+
+## The plugin ecosystem is especially vulnerable
+
+Plugins are interesting because users often install them directly into something important.
+
+A WordPress plugin isn't just another website sitting somewhere on the internet.
+
+It can have access to customer data, orders, payments, user accounts, database tables, API credentials, and other parts of a business.
+
+If a plugin is poorly built, the consequences aren't limited to an ugly interface.
+
+It can slow down a store.
+
+It can break another plugin.
+
+It can create duplicate records.
+
+It can lose data.
+
+It can expose sensitive information.
+
+Or it can simply stop working after the next update.
+
+And the store owner may have no idea why.
+
+That's why "it works on my site" isn't a particularly useful definition of quality.
+
+## More plugins doesn't mean better software
+
+There is another side effect of AI making software cheaper to produce.
+
+There will probably be more software.
+
+A lot more.
+
+Some of it will be excellent.
+
+Some of it will be useful little tools built by people who genuinely understand a problem.
+
+And some of it will be AI-generated filler.
+
+That makes discovery harder.
+
+If there are ten plugins solving a problem, a developer who carefully spent months building one reliable solution is competing for attention against someone who generated five plugins over a weekend.
+
+The customer usually can't see the difference immediately.
+
+They see a name.
+
+A screenshot.
+
+A feature list.
+
+Maybe some reviews.
+
+Maybe an AI-written description explaining how "seamlessly" the plugin will transform their workflow.
+
+The actual engineering quality is hidden.
+
+That's not great for users, and it's not great for developers who take the engineering seriously.
+
+## AI can make a good developer better
+
+There is a much more interesting future than simply saying "don't use AI."
+
+AI is incredibly useful when the person using it knows what they are looking at.
+
+If I already understand an API, AI can help me explore it faster.
+
+If I understand a codebase, AI can help me navigate it.
+
+If I understand the architecture, AI can help implement parts of it.
+
+If I understand the failure modes, AI can help me write tests for them.
+
+The important part is that **someone still needs to be responsible for the result.**
+
+AI can write the code.
+
+It doesn't own the consequences.
+
+## The boring parts still matter
+
+One of the funny things about software is that the most important work is often the least exciting.
+
+Nobody gets excited about idempotency.
+
+Nobody puts "carefully handles duplicate webhook deliveries" in giant letters on a landing page.
+
+Retry logic isn't a sexy feature.
+
+Database constraints aren't a selling point.
+
+Logging isn't going to make a product screenshot look impressive.
+
+Neither is handling a partial refund correctly.
+
+But those things are exactly what make software dependable.
+
+The boring parts are often the difference between a plugin that works in a demo and a plugin that can sit inside a real business for years.
+
+## We should use AI without outsourcing responsibility
+
+I don't think we're going back to a world where developers don't use AI.
+
+And I don't think we should.
+
+The tools are too useful.
+
+But there is a difference between **using AI to build software** and **letting AI decide what software should be.**
+
+That distinction matters.
+
+AI doesn't know your customer's business the way you do.
+
+It doesn't know which edge cases will cost your customer money.
+
+It doesn't know which behavior is acceptable when an external service fails.
+
+It doesn't automatically know whether the architecture it just generated will still make sense six months from now.
+
+Someone has to make those decisions.
+
+Someone has to read the code.
+
+Someone has to test it.
+
+Someone has to maintain it.
+
+Someone has to be willing to say, "This implementation is wrong. Let's do it properly."
+
+## The goal isn't less AI
+
+The goal is less slop.
+
+There is nothing wrong with building quickly.
+
+There is nothing wrong with using AI.
+
+There is nothing wrong with vibe coding a weekend project just to see if an idea works.
+
+The problem is confusing **generated** with **finished**.
+
+Generated code is a starting point.
+
+A prototype is not a product.
+
+A product is not finished because it has a nice UI.
+
+And a plugin isn't reliable because an AI said it was.
+
+Good software still requires someone to care about the details.
+
+That hasn't changed.
+
+If anything, as AI makes software easier to produce, understanding those details becomes even more valuable.
+
+That's the kind of software we want to build at PlgCraft.
+
+Not software that exists because we could generate it.
+
+Software that exists because someone actually needed it.
+
+And if AI helps us build it better and faster, we'll use it.
+
+Just not as an excuse to ship the slop.
