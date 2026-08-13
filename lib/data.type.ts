@@ -1,45 +1,28 @@
-import {
-  Lightbulb,
-  Code2,
-  Rocket,
-  Archive,
-  ClipboardCheck,
-} from "lucide-react";
+import { Archive, ClipboardCheck, Code2, Lightbulb, Rocket } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Badge } from "./platformBadges";
-import { IconName } from "lucide-react/dynamic";
+import type { IconName } from "lucide-react/dynamic";
+import type { Badge } from "./platformBadges";
 
-export type Platform =
-  | "woocommerce"
-  | "shopify"
-  | "quickbooks"
-  | "xero"
-  | "airtable";
+export const platforms = ["woocommerce", "shopify", "quickbooks", "xero", "airtable"] as const;
+export type Platform = (typeof platforms)[number];
 
-type ProductCategory =
-//  | "tool"
-  | "plugin"
- // | "extension"
-  // | "integration"
-  // | "saas";
+export const productCategories = ["plugin"] as const;
+export type ProductCategory = (typeof productCategories)[number];
 
+export const productStatusIds = ["planning", "development", "review", "live", "deprecated"] as const;
+export type ProductStatusId = (typeof productStatusIds)[number];
 
-type ProductStatusId =
-  | "planning"
-  | "development"
-  | "review"
-  | "live"
-  | "deprecated";
+type StatusColors = {
+  text: string;
+  bg: string;
+  border: string;
+};
 
-type ProductStatus = {
+export type ProductStatus = {
   id: ProductStatusId;
   label: string;
   icon: LucideIcon;
-  color: {
-    text: string;
-    bg: string;
-    border: string;
-  };
+  color: StatusColors;
 };
 
 export const productStatuses: Record<ProductStatusId, ProductStatus> = {
@@ -53,7 +36,6 @@ export const productStatuses: Record<ProductStatusId, ProductStatus> = {
       border: "border-yellow-200",
     },
   },
-
   development: {
     id: "development",
     label: "In Development",
@@ -64,18 +46,16 @@ export const productStatuses: Record<ProductStatusId, ProductStatus> = {
       border: "border-blue-200",
     },
   },
-
-review: {
-  id: "review",
-  label: "Under Review",
-  icon: ClipboardCheck,
-  color: {
-    text: "text-purple-700",
-    bg: "bg-purple-50",
-    border: "border-purple-200",
+  review: {
+    id: "review",
+    label: "Under Review",
+    icon: ClipboardCheck,
+    color: {
+      text: "text-purple-700",
+      bg: "bg-purple-50",
+      border: "border-purple-200",
+    },
   },
-},
-
   live: {
     id: "live",
     label: "Live",
@@ -86,7 +66,6 @@ review: {
       border: "border-green-200",
     },
   },
-
   deprecated: {
     id: "deprecated",
     label: "Deprecated",
@@ -97,13 +76,15 @@ review: {
       border: "border-gray-200",
     },
   },
-}; type SocialLinks = {
+};
+
+export type SocialLinks = {
   github?: string;
   linkedin?: string;
   twitter?: string;
 };
 
-type AppFeature = {
+export type AppFeature = {
   title: string;
   description: string;
   icon: IconName;
@@ -116,42 +97,39 @@ export type Testimonial = {
   message: string;
 };
 
+export type ProductPricing = {
+  label: string;
+  amount?: number;
+  currency?: string;
+  kind?: "free" | "paid" | "coming-soon";
+};
+
 export type Product = {
   id: string;
   name: string;
   shortDescription: string;
   fullDescription: string;
-
   category: ProductCategory;
-  platform: Platform[];
-
-  status: ProductStatus;
-
+  platform: readonly Platform[];
+  statusId: ProductStatusId;
   icon: string;
   accentColor: string;
-
   version: string;
-  releaseDate: string;
-
-  price: string;
-
-  screenshots: string[];
-
-  features: AppFeature[];
-
-  techStack: string[];
-
+  releaseDate: `${number}-${number}-${number}`;
+  pricing: ProductPricing;
+  screenshots: readonly string[];
+  features: readonly AppFeature[];
+  techStack: readonly string[];
   storeLinks: Partial<Record<Platform, Badge>>;
-
   videoDemo?: string;
-
-  testimonials: Testimonial[];
-
+  testimonials: readonly Testimonial[];
   featured: boolean;
 };
 
-type Category = {
-  id: string;
+export type ProductListCategory = ProductCategory | "all";
+
+export type Category = {
+  id: ProductListCategory;
   name: string;
   icon: string;
 };
@@ -165,8 +143,6 @@ export type AppData = {
     sub: string;
     social: SocialLinks;
   };
-
-  apps: Product[];
-
-  categories: Category[];
+  apps: readonly Product[];
+  categories: readonly Category[];
 };

@@ -7,7 +7,7 @@ export const ScreenshotGallery = ({
   screenshots,
   appName,
 }: {
-  screenshots: string[];
+  screenshots: readonly string[];
   appName: string;
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);

@@ -4,7 +4,10 @@ import { InlineTOC } from "fumadocs-ui/components/inline-toc";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { blog } from "@/lib/source";
 import { ArrowRight, Calendar } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { buildBlogPostingJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
 
 export default async function Page(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -21,8 +24,27 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
       })
     : "";
 
+  const url = `${siteConfig.url}/blog/${params.slug}`;
+
   return (
     <div className="min-h-screen bg-white">
+      <JsonLd
+        data={[
+          buildBlogPostingJsonLd({
+            title: page.data.title,
+            description: page.data.description,
+            url,
+            datePublished: new Date(page.data.date).toISOString(),
+            author: page.data.author,
+            keywords: [page.data.category, page.data.tag].filter(Boolean),
+          }),
+          buildBreadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Blog", url: `${siteConfig.url}/blog` },
+            { name: page.data.title, url },
+          ]),
+        ]}
+      />
       <article className="pt-28 px-6 md:px-12 lg:px-24">
         {/* Article Header – brutalist style */}
         <div className="max-w-4xl mx-auto">
@@ -283,8 +305,19 @@ export async function generateMetadata(props: {
 
   if (!page) notFound();
 
+  const url = `${siteConfig.url}/blog/${params.slug}`;
+
   return {
     title: `${page.data.title} | AliamerLab Blog`,
     description: page.data.description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: page.data.title,
+      description: page.data.description,
+      type: "article",
+      url,
+    },
   };
 }

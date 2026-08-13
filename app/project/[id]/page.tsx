@@ -1,49 +1,54 @@
 import { Logo } from "@/components/Logo";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { VideoDemo } from "@/components/VideoDemo";
-import { getAppById } from "@/lib/data";
+import { getAppById, appData } from "@/lib/data";
 import { Testimonial } from "@/lib/data.type";
 import { Badge } from "@/lib/platformBadges";
-import * as motion from "framer-motion/client";
 import { DynamicIcon, IconName } from 'lucide-react/dynamic';
-import {
-  ArrowLeft,
-  ArrowRight,
-  Calendar,
-  Quote,
-  Tag,
-} from "lucide-react";
+import { ArrowRight, Calendar, Quote, Tag } from "lucide-react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { buildProductJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
+import type { CSSProperties } from "react";
+
+export const dynamicParams = false;
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const app = getAppById(id);
   if (!app) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-black mb-4">APP NOT FOUND</h1>
-          <Link href="/" className="inline-flex items-center gap-2 font-bold hover:text-red-500">
-            <ArrowLeft size={20} /> BACK TO HOME
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
     <main className="min-h-screen bg-white">
+      <JsonLd
+        data={[
+          buildProductJsonLd({
+            name: app.name,
+            description: app.shortDescription,
+            url: `${siteConfig.url}/project/${app.id}`,
+            image: app.screenshots[0] ? `${siteConfig.url}${app.screenshots[0]}` : undefined,
+            category: app.category,
+            brand: siteConfig.name,
+          }),
+          buildBreadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Projects", url: `${siteConfig.url}/#projects` },
+            { name: app.name, url: `${siteConfig.url}/project/${app.id}` },
+          ]),
+        ]}
+      />
       <section
         className="pt-32 pb-16 relative overflow-hidden"
         style={{ backgroundColor: `${app.accentColor}15` }}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
               <div className="flex flex-wrap gap-2 mb-4">
                 {app.platform.map((p) => (
                   <span
@@ -58,45 +63,20 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               <h1 className="text-5xl md:text-7xl font-black mb-4">{app.name}</h1>
               <p className="text-xl md:text-2xl text-gray-600 mb-6">{app.shortDescription}</p>
 
-              {/* Rating & Stats */}
-              <div className="flex flex-wrap items-center gap-6 mb-8">
-                <div className="flex items-center gap-2">
-                  {/* <div className="flex"> */}
-                  {/*   {[...Array(5)].map((_, i) => ( */}
-                  {/*     <Star */}
-                  {/*       key={i} */}
-                  {/*       size={24} */}
-                  {/*       className={ */}
-                  {/*         i < Math.floor(app.rating) */}
-                  {/*           ? "fill-yellow-400 text-yellow-400" */}
-                  {/*           : "text-gray-300" */}
-                  {/*       } */}
-                  {/*     /> */}
-                  {/*   ))} */}
-                  {/* </div> */}
-                  {/* <span className="font-black text-2xl">{app.rating}</span> */}
-                  {/* <span className="text-gray-600">({app.reviews} reviews)</span> */}
-                </div>
-              </div>
-
-              {/* Store Badges */}
               <div className="flex flex-wrap gap-4">
-                {Object.values(app.storeLinks).map(badget => <StoreBadge key={badget.text} badge={badget} />)}
+                {Object.values(app.storeLinks).map((badget) => (
+                  <StoreBadge key={badget.text} badge={badget} />
+                ))}
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+            <div className="reveal-up" style={{ ["--delay" as never]: "180ms" } as CSSProperties}>
               <ScreenshotGallery screenshots={app.screenshots} appName={app.name} />
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* App Info Bar */}
       <section className="bg-black text-white py-6">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-wrap justify-between items-center gap-6">
@@ -109,38 +89,24 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               <span>Version: {app.version}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-xl">
-                {app.price}
-              </span>
+              <span className="font-bold text-xl">{app.pricing.label}</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Description Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid md:grid-cols-3 gap-12">
-            <div className="md:col-span-2">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                <h2 className="text-3xl md:text-4xl font-black mb-6">
-                  ABOUT THIS <span className="text-stroke text-transparent">APP</span>
-                </h2>
-                <p className="text-lg text-gray-700 leading-relaxed">{app.fullDescription}</p>
-              </motion.div>
+            <div className="md:col-span-2 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+              <h2 className="text-3xl md:text-4xl font-black mb-6">
+                ABOUT THIS <span className="text-stroke text-transparent">APP</span>
+              </h2>
+              <p className="text-lg text-gray-700 leading-relaxed">{app.fullDescription}</p>
             </div>
 
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="bg-gray-100 brutalist-border p-6"
-              >
+            <div className="reveal-up" style={{ ["--delay" as never]: "120ms" } as CSSProperties}>
+              <div className="bg-gray-100 brutalist-border p-6">
                 <h3 className="font-black text-xl mb-4">TECH STACK</h3>
                 <div className="flex flex-wrap gap-2">
                   {app.techStack.map((tech) => (
@@ -149,28 +115,22 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                     </span>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
             <span className="inline-block bg-red-500 text-white px-4 py-2 text-sm font-bold mb-4">
               FEATURES
             </span>
             <h2 className="text-3xl md:text-5xl font-black">
               WHAT'S <span className="text-stroke text-transparent">INSIDE</span>
             </h2>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {app.features.map((feature, index) => (
@@ -180,46 +140,34 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         </div>
       </section>
 
-      {/* Video Demo Section */}
       {app.videoDemo && (
         <section className="py-16">
           <div className="max-w-4xl mx-auto px-4 md:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
+            <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
               <span className="inline-block bg-yellow-400 text-black px-4 py-2 text-sm font-bold mb-4">
                 VIDEO
               </span>
               <h2 className="text-3xl md:text-5xl font-black">
                 SEE IT IN <span className="text-stroke text-transparent">ACTION</span>
               </h2>
-            </motion.div>
+            </div>
 
             <VideoDemo videoUrl={app.videoDemo} appName={app.name} />
           </div>
         </section>
       )}
 
-      {/* Testimonials Section */}
       {app.testimonials && app.testimonials.length > 0 && (
         <section className="py-16 bg-black text-white">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
+            <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
               <span className="inline-block bg-white text-black px-4 py-2 text-sm font-bold mb-4">
                 REVIEWS
               </span>
               <h2 className="text-3xl md:text-5xl font-black">
                 WHAT USERS <span className="text-stroke-white text-transparent">SAY</span>
               </h2>
-            </motion.div>
+            </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {app.testimonials.map((testimonial, index) => (
@@ -230,26 +178,22 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         </section>
       )}
 
-      {/* CTA Section */}
       <section className="py-20" style={{ backgroundColor: app.accentColor }}>
         <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-          >
+          <div className="reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
             <div className="text-8xl mb-6">{app.icon}</div>
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
               READY TO TRY {app.name.toUpperCase()}?
             </h2>
             <div className="flex flex-wrap justify-center gap-4">
-              {Object.values(app.storeLinks).map(badget => <StoreBadge key={badget.text} badge={badget} />)}
+              {Object.values(app.storeLinks).map((badget) => (
+                <StoreBadge key={badget.text} badge={badget} />
+              ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-white border-t-4 border-black py-8">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -270,6 +214,37 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   );
 }
 
+export function generateStaticParams(): { id: string }[] {
+  return appData.apps.map((app) => ({ id: app.id }));
+}
+
+export async function generateMetadata(props: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await props.params;
+  const app = getAppById(id);
+
+  if (!app) {
+    return { title: "Project not found" };
+  }
+
+  const url = `${siteConfig.url}/project/${app.id}`;
+
+  return {
+    title: app.name,
+    description: app.shortDescription,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: app.name,
+      description: app.shortDescription,
+      type: "website",
+      url,
+    },
+  };
+}
+
 const StoreBadge = ({ badge }: { badge: Badge }) => {
   const commonClasses = `${badge.bg} text-white px-6 py-4 flex items-center gap-4 brutalist-hover`;
   const content = (
@@ -283,24 +258,19 @@ const StoreBadge = ({ badge }: { badge: Badge }) => {
   );
 
   return badge.href ? (
-    <motion.a
+    <a
       href={badge.href}
       target="_blank"
       rel="noopener noreferrer"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       className={commonClasses}
     >
       {content}
-    </motion.a>
+    </a>
   ) : (
-    <motion.div
-      aria-disabled="true"
-      className={`${commonClasses} opacity-50 cursor-not-allowed select-none`}
-    >
+    <div aria-disabled="true" className={`${commonClasses} opacity-50 cursor-not-allowed select-none`}>
       {content}
-    </motion.div>
-  )
+    </div>
+  );
 };
 
 const FeatureCard = ({
@@ -311,19 +281,16 @@ const FeatureCard = ({
   index: number;
 }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      className="bg-white brutalist-border brutalist-shadow-sm p-6 brutalist-hover"
+    <div
+      className="reveal-up bg-white brutalist-border brutalist-shadow-sm p-6 brutalist-hover"
+      style={{ ["--delay" as never]: `${index * 90}ms` } as CSSProperties}
     >
       <div className="flex items-start gap-2">
         <DynamicIcon name={feature.icon} className="text-4xl mb-4" />
         <h3 className="font-black text-xl mb-2">{feature.title}</h3>
       </div>
       <p className="text-gray-600">{feature.description}</p>
-    </motion.div>
+    </div>
   );
 };
 
@@ -335,28 +302,16 @@ const TestimonialCard = ({
   index: number;
 }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.2 }}
-      className="bg-gray-100 brutalist-border p-6 relative"
+    <div
+      className="reveal-up bg-gray-100 brutalist-border p-6 relative"
+      style={{ ["--delay" as never]: `${index * 120}ms` } as CSSProperties}
     >
       <Quote className="absolute top-4 right-4 text-gray-300" size={40} />
-      {/* <div className="flex items-center gap-1 mb-4"> */}
-      {/*   {[...Array(5)].map((_, i) => ( */}
-      {/*     <Star */}
-      {/*       key={i} */}
-      {/*       size={16} */}
-      {/*       className={i < testimonial.rate ? "fill-yellow-400 text-yellow-400" : "text-gray-300"} */}
-      {/*     /> */}
-      {/*   ))} */}
-      {/* </div> */}
       <p className="text-lg mb-4 italic">"{testimonial.message}"</p>
       <div>
         <p className="font-bold">{testimonial.name}</p>
         <p className="text-sm text-gray-600">{testimonial.role}</p>
       </div>
-    </motion.div>
+    </div>
   );
 };

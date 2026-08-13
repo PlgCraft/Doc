@@ -1,6 +1,6 @@
+import type { CSSProperties } from "react";
 import { blog } from "@/lib/source";
 import { ACCENTCOLOR } from "@/lib/utils";
-import * as motion from "framer-motion/client";
 import { ArrowRight, ArrowUpRight, BookOpen, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { BlogCardContainer } from "./AnimatedContainer";
@@ -11,18 +11,11 @@ export const BlogsSection = () => {
 
   return (
     <section id="blog" className="py-20 bg-white relative overflow-hidden">
-      {/* Decorative diagonal stripe */}
       <div className="absolute -top-10 -right-10 w-40 h-40 bg-yellow-400 rotate-12 hidden md:block" />
       <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-red-500 -rotate-12 hidden md:block" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16"
-        >
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
           <div>
             <span className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-6">
               INSIGHTS
@@ -35,7 +28,7 @@ export const BlogsSection = () => {
           <p className="text-lg text-gray-600 max-w-md font-medium">
             Stay up to date with new products, feature releases, technical tutorials, integration guides, and engineering articles from PlgCraft. Learn how our software is built, what's shipping next, and the ideas behind every product.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8">
           {blogs.map((blog, i) => (
@@ -51,20 +44,15 @@ export const BlogsSection = () => {
             />
           ))}
         </div>
-        {/* View all CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 md:mt-16 flex justify-center"
-        >
+
+        <div className="mt-12 md:mt-16 flex justify-center reveal-up" style={{ ["--delay" as never]: "320ms" } as CSSProperties}>
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 font-bold text-lg brutalist-shadow brutalist-hover\"
+            className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 font-bold text-lg brutalist-shadow brutalist-hover"
           >
             READ ALL POSTS <ArrowRight size={20} />
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -102,7 +90,6 @@ const BlogCard = ({
         href={blog.url}
         className="group block bg-white brutalist-border brutalist-shadow brutalist-hover h-full"
       >
-        {/* Accent header bar */}
         <div
           className="border-b-4 border-black p-6 flex items-center justify-between"
           style={{ backgroundColor: `${blog.accentColor}20` }}
@@ -116,7 +103,6 @@ const BlogCard = ({
           <BookOpen size={featured ? 28 : 22} className="text-black" />
         </div>
 
-        {/* Body */}
         <div className={`p-6 ${featured ? "md:p-10" : ""} flex flex-col h-[calc(100%-72px)]`}>
           <div className="flex items-center gap-3 text-xs font-mono-brutal text-gray-500 mb-4 uppercase tracking-wider">
             <span className="flex items-center gap-1">
@@ -146,7 +132,6 @@ const BlogCard = ({
             {blog.description}
           </p>
 
-          {/* Footer */}
           <div className="mt-auto pt-4 border-t-2 border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div

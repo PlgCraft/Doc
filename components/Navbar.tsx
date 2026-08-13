@@ -1,9 +1,10 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { CloudLightning, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
+import { mainNavLinks } from "@/lib/site";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,22 +29,22 @@ export const Navbar = () => {
           <Logo />
 
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/#projects" className="font-bold hover:text-red-500 transition-colors">
-              PROJECTS
-            </Link>
-            <Link href="/blog" className="font-bold hover:text-red-500 transition-colors">
-              BLOG
-            </Link>
-            <Link href="/#about" className="font-bold hover:text-red-500 transition-colors">
-              ABOUT
-            </Link>
-            <Link href="/#contact" className="font-bold hover:text-red-500 transition-colors">
-              CONTACT
-            </Link>
+            {mainNavLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="font-bold hover:text-red-500 transition-colors"
+              >
+                {link.label.toUpperCase()}
+              </Link>
+            ))}
           </div>
 
           <button
+            type="button"
             onClick={() => setIsOpen(!isOpen)}
+            aria-expanded={isOpen}
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             className="md:hidden p-2 brutalist-border bg-white"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -60,27 +61,16 @@ export const Navbar = () => {
             className="md:hidden bg-white border-b-4 border-black"
           >
             <div className="px-4 py-6 space-y-4">
-              <Link
-                href="/#apps"
-                className="block font-bold text-xl"
-                onClick={() => setIsOpen(false)}
-              >
-                APPS
-              </Link>
-              <Link
-                href="/#about"
-                className="block font-bold text-xl"
-                onClick={() => setIsOpen(false)}
-              >
-                ABOUT
-              </Link>
-              <Link
-                href="/#contact"
-                className="block font-bold text-xl"
-                onClick={() => setIsOpen(false)}
-              >
-                CONTACT
-              </Link>
+              {mainNavLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block font-bold text-xl"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label.toUpperCase()}
+                </Link>
+              ))}
             </div>
           </motion.div>
         )}

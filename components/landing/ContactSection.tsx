@@ -1,17 +1,12 @@
+import type { CSSProperties } from "react";
 import { appData } from "@/lib/data";
-import * as motion from "framer-motion/client";
 import { Github, Globe, Linkedin, Mail, Twitter } from "lucide-react";
 
 export const ContactSection = () => {
   return (
     <section id="contact" className="py-20 bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
           <span className="inline-block bg-white text-black px-4 py-2 text-sm font-bold mb-6">
             GET IN TOUCH
           </span>
@@ -24,32 +19,24 @@ export const ContactSection = () => {
             yet? Looking for someone to build something custom, or want to talk about working
             together? Reach out — I read every message myself.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Email */}
-          <motion.a
+          <a
             href={`mailto:${appData.info.email}`}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="bg-white text-black p-8 brutalist-hover group"
+            className="reveal-up bg-white text-black p-8 brutalist-hover group"
+            style={{ ["--delay" as never]: "120ms" } as CSSProperties}
           >
             <Mail size={40} className="mb-4" />
             <h3 className="font-black text-xl mb-2">EMAIL</h3>
             <p className="text-gray-600 group-hover:text-red-500 transition-colors">
               {appData.info.email}
             </p>
-          </motion.a>
+          </a>
 
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="bg-red-500 p-8"
+          <div
+            className="reveal-up bg-red-500 p-8"
+            style={{ ["--delay" as never]: "220ms" } as CSSProperties}
           >
             <h3 className="font-black text-xl mb-6">FOLLOW ME</h3>
             <div className="flex gap-4">
@@ -78,15 +65,11 @@ export const ContactSection = () => {
                 <Linkedin size={24} />
               </a>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Location */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="bg-yellow-400 text-black p-8"
+          <div
+            className="reveal-up bg-yellow-400 text-black p-8"
+            style={{ ["--delay" as never]: "320ms" } as CSSProperties}
           >
             <Globe size={40} className="mb-4" />
             <h3 className="font-black text-xl mb-2">WHAT TO REACH OUT ABOUT</h3>
@@ -94,7 +77,7 @@ export const ContactSection = () => {
               Feature requests, bug reports, a custom plugin or integration you need built,
               or a job opportunity — all welcome. No request is too small.
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
