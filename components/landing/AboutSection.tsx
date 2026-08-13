@@ -15,7 +15,7 @@ export const AboutSection = () => {
             <div className="relative">
               <div className="bg-black brutalist-shadow-lg p-8">
                 <div className="text-white font-black leading-none">
-                  <Logo />
+                  <Logo withBG={true} />
                   <p className="pt-5">
                     Plugins, Integrations & Software Products
                   </p>
@@ -40,16 +40,10 @@ export const AboutSection = () => {
               NOT <span className="text-stroke text-transparent">ASSEMBLED</span>
             </h2>
             <p className="text-lg text-gray-600 mb-8">
-              PlgCraft is built around one idea: software should solve a real problem, then get
-              out of the way. Every product starts the same way — studying how data actually
-              moves between platforms, where existing tools tend to break, and what a business
-              needs to see when something goes wrong.
+              PlgCraft is built around one idea: software should solve a real problem, then get out of the way. Every product starts the same way, studying how data actually moves between platforms, where existing tools tend to break, and what a business needs to see when something goes wrong.
               <br />
               <br />
-              As an independent studio, every product is designed, built, and supported by the
-              same person from day one — no handoffs, no lost context between teams, no
-              "let me check and get back to you." That means faster fixes, tighter integrations,
-              and software shaped by real production use rather than internal roadmaps.
+              Every product is designed, built, and supported by the same person from day one. No handoffs, no lost context between teams, no "let me check and get back to you." That means faster fixes, tighter integrations, and software shaped by real production use rather than internal roadmaps.
             </p>
             {/* Skills */}
             {/* <div className="space-y-4"> */}

@@ -7,7 +7,7 @@ export const appData: AppData = {
     title: "Plugins, Integrations & Software Products",
     email: "aliamer19ali@gmail.com",
     tagline: "Crafting reliable plugins and software tools that solve real business problems.",
-    sub: "PlgCraft is a small software studio building plugins, integrations, and tools that solve one problem really well. No bloated feature lists, no dashboards you'll never open — just software that connects your platforms, automates the boring parts, and stays out of your way.",
+    sub: "PlgCraft builds plugins, integrations, and tools that solve one problem really well. No bloated feature lists, no dashboards you'll never open. Just software that connects your platforms, automates the boring parts, and stays out of your way.",
     social: {
       github: "https://github.com/aliamerj",
       twitter: "https://x.com/AliAmer12748774",

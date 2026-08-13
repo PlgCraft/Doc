@@ -6,13 +6,14 @@ import {
   ClipboardCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { Badge } from "./platformBadges";
+import { IconName } from "lucide-react/dynamic";
 
 export type Platform =
   | "woocommerce"
   | "shopify"
   | "quickbooks"
   | "xero"
-  | "monday"
   | "airtable";
 
 type ProductCategory =
@@ -105,7 +106,7 @@ review: {
 type AppFeature = {
   title: string;
   description: string;
-  icon: string;
+  icon: IconName;
 };
 
 export type Testimonial = {
@@ -114,8 +115,6 @@ export type Testimonial = {
   company?: string;
   message: string;
 };
-
-type StoreLinks = Partial<Record<Platform, string>>;
 
 export type Product = {
   id: string;
@@ -142,7 +141,7 @@ export type Product = {
 
   techStack: string[];
 
-  storeLinks: StoreLinks;
+  storeLinks: Partial<Record<Platform, Badge>>;
 
   videoDemo?: string;
 

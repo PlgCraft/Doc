@@ -1,4 +1,5 @@
 import { Product, productStatuses, } from "../data.type";
+import { platformBadges } from "../platformBadges";
 
 export const bookFlow: Product = {
   id: "bookflow",
@@ -25,37 +26,37 @@ export const bookFlow: Product = {
       title: "Real-Time Order Sync",
       description:
         "Orders land in QuickBooks or Xero the moment they happen in WooCommerce — no waiting on a nightly batch.",
-      icon: "Zap"
+      icon: "zap"
     },
     {
       title: "A Real Audit Trail",
       description:
         "Every synced transaction stays linked to its original order, so you can always trace a number back to where it came from.",
-      icon: "FileSearch"
+      icon: "file-search"
     },
     {
       title: "Reconciliation That Just Works",
       description:
         "Payouts, fees, refunds, and adjustments get matched automatically, so your books match reality without the manual cleanup.",
-      icon: "RefreshCcw"
+      icon: "refresh-ccw"
     },
     {
       title: "Numbers You Can Trust",
       description:
         "Taxes, discounts, shipping, and fees are recorded correctly the first time — no more end-of-month corrections.",
-      icon: "Receipt"
+      icon: "receipt"
     },
     {
       title: "Set Up in Minutes",
       description:
         "A guided setup walks you through connecting your store and accounts — built for store owners, not just developers.",
-      icon: "Settings"
+      icon: "settings"
     },
     {
       title: "Built to Scale",
       description:
         "Whether you're processing 10 orders a day or 10,000, BookFlow's architecture keeps every sync accurate.",
-      icon: "TrendingUp"
+      icon: "trending-up"
     }
   ],
   techStack: [
@@ -65,9 +66,7 @@ export const bookFlow: Product = {
     "QuickBooks API",
     "Xero API"
   ],
-  storeLinks: {
-    woocommerce: "https://.."
-  },
+  storeLinks:{  woocommerce: platformBadges['woocommerce']},
   videoDemo: "",
   testimonials: [],
   featured: true

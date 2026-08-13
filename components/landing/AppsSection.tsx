@@ -30,7 +30,7 @@ export const AppsSection = () => {
             Software <span className="text-stroke text-transparent">I Build</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Each product here is built to solve a specific, real problem — designed, developed, and shipped from start to finish.
+            Every product here is designed, developed, and shipped from start to finish, built to solve one real problem well.
           </p>
         </motion.div>
 

@@ -2,14 +2,15 @@ import { Logo } from "@/components/Logo";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { VideoDemo } from "@/components/VideoDemo";
 import { getAppById } from "@/lib/data";
-import { Platform, Testimonial } from "@/lib/data.type";
+import { Testimonial } from "@/lib/data.type";
+import { Badge } from "@/lib/platformBadges";
 import * as motion from "framer-motion/client";
+import { DynamicIcon, IconName } from 'lucide-react/dynamic';
 import {
   ArrowLeft,
   ArrowRight,
   Calendar,
   Quote,
-  Smartphone,
   Tag,
 } from "lucide-react";
 import Link from "next/link";
@@ -17,7 +18,6 @@ import Link from "next/link";
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const app = getAppById(id);
-
   if (!app) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -81,7 +81,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
               {/* Store Badges */}
               <div className="flex flex-wrap gap-4">
-                {app.storeLinks.woocommerce && <StoreBadge type="woocommerce" url={app.storeLinks.woocommerce} />}
+                {Object.values(app.storeLinks).map(badget => <StoreBadge key={badget.text} badge={badget} />)}
               </div>
             </motion.div>
 
@@ -243,7 +243,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               READY TO TRY {app.name.toUpperCase()}?
             </h2>
             <div className="flex flex-wrap justify-center gap-4">
-              {app.storeLinks.woocommerce && <StoreBadge type="woocommerce" url={app.storeLinks.woocommerce} />}
+              {Object.values(app.storeLinks).map(badget => <StoreBadge key={badget.text} badge={badget} />)}
             </div>
           </motion.div>
         </div>
@@ -270,41 +270,44 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   );
 }
 
-const StoreBadge = ({ url }: { type: Platform; url: string }) => {
-
-  const badges = {
-    woocommerce: {
-      icon: <Smartphone size={24} />,
-      text: "GET IT ON",
-      store: "Google Play",
-      bg: "bg-black",
-    },
-  };
-  const badge = badges["woocommerce"];
-
-  return (
-    <motion.a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className={`${badge.bg} text-white px-6 py-4 flex items-center gap-4 brutalist-hover`}
-    >
+const StoreBadge = ({ badge }: { badge: Badge }) => {
+  const commonClasses = `${badge.bg} text-white px-6 py-4 flex items-center gap-4 brutalist-hover`;
+  const content = (
+    <>
       {badge.icon}
       <div className="text-left">
         <div className="text-xs uppercase">{badge.text}</div>
         <div className="font-bold text-lg">{badge.store}</div>
       </div>
-    </motion.a>
+    </>
   );
+
+  return badge.href ? (
+    <motion.a
+      href={badge.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className={commonClasses}
+    >
+      {content}
+    </motion.a>
+  ) : (
+    <motion.div
+      aria-disabled="true"
+      className={`${commonClasses} opacity-50 cursor-not-allowed select-none`}
+    >
+      {content}
+    </motion.div>
+  )
 };
 
 const FeatureCard = ({
   feature,
   index,
 }: {
-  feature: { icon: string; title: string; description: string };
+  feature: { icon: IconName; title: string; description: string };
   index: number;
 }) => {
   return (
@@ -315,8 +318,10 @@ const FeatureCard = ({
       transition={{ delay: index * 0.1 }}
       className="bg-white brutalist-border brutalist-shadow-sm p-6 brutalist-hover"
     >
-      <div className="text-4xl mb-4">{feature.icon}</div>
-      <h3 className="font-black text-xl mb-2">{feature.title}</h3>
+      <div className="flex items-start gap-2">
+        <DynamicIcon name={feature.icon} className="text-4xl mb-4" />
+        <h3 className="font-black text-xl mb-2">{feature.title}</h3>
+      </div>
       <p className="text-gray-600">{feature.description}</p>
     </motion.div>
   );
