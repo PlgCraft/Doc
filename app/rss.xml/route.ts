@@ -27,7 +27,7 @@ export async function GET() {
       const title = escapeXml(post.data.title);
       const description = escapeXml(post.data.description ?? "");
       const category = escapeXml(post.data.category ?? "Blog");
-      const tag = escapeXml(post.data.tag ?? category);
+      const tag = escapeXml(post.data.tags.join(", ") ?? category);
       return `
     <item>
       <title>${title}</title>
