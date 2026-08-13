@@ -81,9 +81,8 @@ const BlogCard = ({
   index: number;
   featured: boolean;
 }) => {
-  console.log(`title : ${blog.title}, featured :${featured}`)
 
-  const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
+const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
