@@ -47,6 +47,9 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.className}>
+      <head>
+        <meta name="apple-mobile-web-app-title" content="PlgCraft" />
+      </head>
       <body className="font-sans-brutal antialiased text-black">
         <RootProvider
           search={{
