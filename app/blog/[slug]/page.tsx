@@ -279,10 +279,10 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="font-black text-xl">
-              AliamerLab<span className="text-red-500">.</span>
+              PlgCraft<span className="text-red-500">.</span>
             </div>
             <div className="text-gray-600 font-mono text-sm">
-              © {new Date().getFullYear()} DBPiper. All rights reserved.
+              © {new Date().getFullYear()} PlgCraft. All rights reserved.
             </div>
             <Link href="/blog" className="text-sm font-black hover:text-red-500 transition-colors">
               ← BACK TO BLOG
