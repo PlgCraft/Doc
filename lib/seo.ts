@@ -137,7 +137,7 @@ export function buildProductJsonLd(options: {
   };
 }
 
-export function buildBlogIndexJsonLd(options: {
+export function buildCollectionPageJsonLd(options: {
   url: string;
   name: string;
   description?: string;
@@ -166,6 +166,55 @@ export function buildBlogIndexJsonLd(options: {
         datePublished: item.datePublished,
       })),
     },
+  };
+}
+
+export function buildBlogIndexJsonLd(options: Parameters<typeof buildCollectionPageJsonLd>[0]) {
+  return buildCollectionPageJsonLd(options);
+}
+
+export function buildSoftwareApplicationJsonLd(options: {
+  name: string;
+  description?: string;
+  url: string;
+  image?: string;
+  category?: string;
+  keywords?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: options.name,
+    description: options.description,
+    url: options.url,
+    image: options.image ? [options.image] : undefined,
+    applicationCategory: options.category ?? "UtilitiesApplication",
+    operatingSystem: "Any (Web)",
+    keywords: options.keywords?.length ? options.keywords.join(", ") : undefined,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    brand: {
+      "@type": "Brand",
+      name: siteConfig.name,
+    },
+  };
+}
+
+export function buildFaqJsonLd(faqs: Array<{ question: string; answer: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
   };
 }
 

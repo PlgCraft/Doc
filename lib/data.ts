@@ -18,7 +18,7 @@ export const appData = {
   categories: [
     {
       id: "all",
-      name: "All Products",
+      name: "All",
       icon: "🎯",
     },
     {

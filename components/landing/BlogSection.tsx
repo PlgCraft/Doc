@@ -28,7 +28,7 @@ export const BlogsSection = () => {
             </h2>
           </div>
           <p className="text-lg text-gray-600 max-w-md font-medium">
-            Stay up to date with new products, feature releases, technical tutorials, integration guides, and engineering articles from PlgCraft. Learn how our software is built, what's shipping next, and the ideas behind every product.
+            Stay up to date with new products, feature releases, technical tutorials, integration guides, and engineering articles from PlgCraft. Learn how our software is built, what&apos;s shipping next, and the ideas behind every product.
           </p>
         </div>
 

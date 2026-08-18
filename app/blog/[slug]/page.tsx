@@ -3,6 +3,7 @@ import Link from "next/link";
 import { InlineTOC } from "fumadocs-ui/components/inline-toc";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { blog } from "@/lib/source";
+import { getAppById } from "@/lib/data";
 import { ArrowRight, Calendar } from "lucide-react";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
@@ -25,6 +26,8 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
     : "";
 
   const url = `${siteConfig.url}/blog/${params.slug}`;
+  const relatedProject = getAppById("bookflow");
+  const relatedPosts = blog.getPages().filter((entry) => entry.url !== page.url).slice(0, 2);
 
   return (
     <div className="min-h-screen bg-white">
@@ -274,6 +277,66 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
         </div>
       </article>
 
+      <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 mt-8">
+        <div className="border-2 border-black bg-gray-50 p-6 md:p-8 shadow-[4px_4px_0px_0px_#000]">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+            <div>
+              <span className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-4">
+                RELATED LINKS
+              </span>
+              <h2 className="text-2xl md:text-4xl font-black">
+                Keep exploring this <span className="text-stroke text-transparent">topic</span>
+              </h2>
+            </div>
+            <p className="text-gray-600 max-w-xl">
+              Read the product behind the writing, or jump to another post if you want more context on how I build and ship software.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            {relatedProject && (
+              <Link
+                href={`/project/${relatedProject.id}`}
+                className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
+              >
+                <span className="inline-block bg-red-500 text-white px-2 py-1 text-xs font-black tracking-wider mb-3">
+                  FEATURED PRODUCT
+                </span>
+                <h3 className="font-black text-xl mb-2">{relatedProject.name}</h3>
+                <p className="text-gray-600 text-sm line-clamp-3">{relatedProject.shortDescription}</p>
+              </Link>
+            )}
+
+            {relatedPosts.map((post) => (
+              <Link
+                key={post.url}
+                href={post.url}
+                className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
+              >
+                <span className="inline-block bg-black text-white px-2 py-1 text-xs font-black tracking-wider mb-3">
+                  MORE READING
+                </span>
+                <h3 className="font-black text-xl mb-2">{post.data.title}</h3>
+                <p className="text-gray-600 text-sm line-clamp-3">{post.data.description}</p>
+              </Link>
+            ))}
+
+            <Link
+              href="/blog"
+              className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
+            >
+              <span className="inline-block bg-yellow-400 text-black px-2 py-1 text-xs font-black tracking-wider mb-3">
+                ALL POSTS
+              </span>
+              <h3 className="font-black text-xl mb-2">Browse the blog archive</h3>
+              <p className="text-gray-600 text-sm line-clamp-3">
+                Explore all articles, releases, and longer notes about plugins, integrations, and building small software.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer – brutalist */}
       <footer className="bg-white border-t-4 border-black py-8 mt-16">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
@@ -309,18 +372,33 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   const url = `${siteConfig.url}/blog/${params.slug}`;
+  const relatedProject = getAppById("bookflow");
+  const relatedPosts = blog.getPages().filter((entry) => entry.url !== page.url).slice(0, 2);
 
   return {
-    title: `${page.data.title} | AliamerLab Blog`,
+    title: {
+      absolute: `${page.data.title} | PlgCraft Blog`,
+    },
     description: page.data.description,
+    keywords: [page.data.category, ...page.data.tags, "PlgCraft"].filter(Boolean),
+    authors: [{ name: page.data.author }],
     alternates: {
       canonical: url,
+      languages: {
+        "en-US": url,
+      },
     },
     openGraph: {
-      title: page.data.title,
+      title: `${page.data.title} | PlgCraft Blog`,
       description: page.data.description,
       type: "article",
       url,
+      siteName: siteConfig.name,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${page.data.title} | PlgCraft Blog`,
+      description: page.data.description,
     },
   };
 }

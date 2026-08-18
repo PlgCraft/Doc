@@ -1,12 +1,14 @@
 import "./global.css";
-import { Inter } from "next/font/google";
+import { Chivo, JetBrains_Mono, Manrope } from "next/font/google";
 import type { Metadata } from "next";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
 import { mainNavLinks, siteConfig } from "@/lib/site";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans" });
+const chivo = Chivo({ subsets: ["latin"], variable: "--font-heading" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -16,6 +18,20 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
+  icons: {
+    icon: [
+      {
+        url: "/plgLogo.svg",
+        type: "image/svg+xml",
+      },
+    ],
+    apple: [
+      {
+        url: "/plgLogo.svg",
+        type: "image/svg+xml",
+      },
+    ],
+  },
   alternates: {
     types: {
       "application/rss+xml": "/rss.xml",
@@ -46,7 +62,11 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.className}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${manrope.variable} ${chivo.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <meta name="apple-mobile-web-app-title" content="PlgCraft" />
       </head>

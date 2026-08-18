@@ -9,6 +9,7 @@ export const siteConfig = {
 
 export const mainNavLinks = [
   { label: "Projects", href: "/#projects" },
+  { label: "Tools", href: "/tools" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },

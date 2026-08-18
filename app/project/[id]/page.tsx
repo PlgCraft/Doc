@@ -128,7 +128,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               FEATURES
             </span>
             <h2 className="text-3xl md:text-5xl font-black">
-              WHAT'S <span className="text-stroke text-transparent">INSIDE</span>
+              WHAT{"'"}S <span className="text-stroke text-transparent">INSIDE</span>
             </h2>
           </div>
 
@@ -194,12 +194,58 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         </div>
       </section>
 
+      <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 pb-8">
+        <div className="border-2 border-black bg-gray-50 p-6 md:p-8 shadow-[4px_4px_0px_0px_#000]">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+            <div>
+              <span className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-4">
+                MORE PROJECTS
+              </span>
+              <h2 className="text-2xl md:text-4xl font-black">
+                See more of the <span className="text-stroke text-transparent">studio</span>
+              </h2>
+            </div>
+            <p className="text-gray-600 max-w-xl">
+              Explore the rest of the products, then compare how each one solves a different workflow with the same practical approach.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <Link
+              href="/#projects"
+              className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
+            >
+              <span className="inline-block bg-red-500 text-white px-2 py-1 text-xs font-black tracking-wider mb-3">
+                ALL PROJECTS
+              </span>
+              <h3 className="font-black text-xl mb-2">Browse the full product list</h3>
+              <p className="text-gray-600 text-sm line-clamp-3">
+                Jump back to the main projects section to compare plugins, integrations, and tools.
+              </p>
+            </Link>
+
+            <Link
+              href="/blog"
+              className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
+            >
+              <span className="inline-block bg-yellow-400 text-black px-2 py-1 text-xs font-black tracking-wider mb-3">
+                BLOG
+              </span>
+              <h3 className="font-black text-xl mb-2">Read the reasoning behind the builds</h3>
+              <p className="text-gray-600 text-sm line-clamp-3">
+                Go deeper on the engineering tradeoffs, workflows, and product ideas that shape these products.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <footer className="bg-white border-t-4 border-black py-8">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <Logo />
             <div className="text-gray-600 font-mono text-sm">
-              © {new Date().getFullYear()} All rights reserved.
+              © {new Date().getFullYear()} PlgCraft. All rights reserved.
             </div>
             <Link
               href="/#projects"
@@ -229,18 +275,34 @@ export async function generateMetadata(props: {
   }
 
   const url = `${siteConfig.url}/project/${app.id}`;
+  const image = app.screenshots[0] ? `${siteConfig.url}${app.screenshots[0]}` : undefined;
 
   return {
-    title: app.name,
+    title: {
+      absolute: `${app.name} plugin | PlgCraft`,
+    },
     description: app.shortDescription,
+    keywords: [app.name, app.category, ...app.platform, siteConfig.name, "WooCommerce plugin"],
+    authors: [{ name: siteConfig.name }],
     alternates: {
       canonical: url,
+      languages: {
+        "en-US": url,
+      },
     },
     openGraph: {
-      title: app.name,
+      title: `${app.name} plugin | PlgCraft`,
       description: app.shortDescription,
       type: "website",
       url,
+      siteName: siteConfig.name,
+      images: image ? [{ url: image, width: 1200, height: 630, alt: app.name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${app.name} plugin | PlgCraft`,
+      description: app.shortDescription,
+      images: image ? [image] : undefined,
     },
   };
 }
@@ -307,7 +369,7 @@ const TestimonialCard = ({
       style={{ ["--delay" as never]: `${index * 120}ms` } as CSSProperties}
     >
       <Quote className="absolute top-4 right-4 text-gray-300" size={40} />
-      <p className="text-lg mb-4 italic">"{testimonial.message}"</p>
+      <p className="text-lg mb-4 italic">{testimonial.message}</p>
       <div>
         <p className="font-bold">{testimonial.name}</p>
         <p className="text-sm text-gray-600">{testimonial.role}</p>

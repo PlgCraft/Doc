@@ -35,8 +35,19 @@ export const AboutSection = () => {
               PlgCraft is built around one idea: software should solve a real problem, then get out of the way. Every product starts the same way, studying how data actually moves between platforms, where existing tools tend to break, and what a business needs to see when something goes wrong.
               <br />
               <br />
-              Every product is designed, built, and supported by the same person from day one. No handoffs, no lost context between teams, no "let me check and get back to you." That means faster fixes, tighter integrations, and software shaped by real production use rather than internal roadmaps.
+              Every project is designed, built, and supported by the same person from day one. No handoffs, no lost context between teams, no &quot;let me check and get back to you.&quot; That means faster fixes, tighter integrations, and software shaped by real production use rather than internal roadmaps.
             </p>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {[
+                "Plugin builds for SaaS, CMS, and commerce workflows.",
+                "Integrations that keep data synced between systems.",
+                "Small tools and internal products that save repeat work.",
+              ].map((item) => (
+                <div key={item} className="bg-gray-100 brutalist-border p-4 font-medium text-gray-700">
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

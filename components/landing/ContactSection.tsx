@@ -11,11 +11,11 @@ export const ContactSection = () => {
             GET IN TOUCH
           </span>
           <h2 className="text-4xl md:text-6xl font-black mb-4">
-            LET'S{" "}
+            {"LET'S "}
             <span className="text-stroke-white text-transparent">Talk</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Have a feature you need, a bug to report, or an idea for a tool that doesn't exist
+            Have a feature you need, a bug to report, or an idea for a tool that doesn&apos;t exist
             yet? Looking for someone to build something custom, or want to talk about working
             together? Reach out — I read every message myself.
           </p>

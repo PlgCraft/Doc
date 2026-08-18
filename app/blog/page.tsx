@@ -4,7 +4,6 @@ import { ArrowLeft, ArrowUpRight, BookOpen, Calendar, Clock } from "lucide-react
 import { BlogFilters } from "@/components/BlogFilters";
 import { BlogListCardContainer } from "@/components/landing/AnimatedContainer";
 import { ACCENTCOLOR } from "@/lib/utils";
-import { appData } from "@/lib/data";
 import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import type { Metadata } from "next";
@@ -157,7 +156,7 @@ export default async function Home({ searchParams }: Parms) {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <Logo />
             <div className="text-gray-600 font-mono-brutal text-sm">
-              © {new Date().getFullYear()} {appData.info.name}. All rights reserved.
+              © {new Date().getFullYear()} PlgCraft. All rights reserved.
             </div>
             <div className="flex items-center gap-4">
               <Link href="/" className="text-sm font-bold hover:text-red-500 transition-colors">
@@ -211,9 +210,37 @@ const BlogHero = ({ totalCount }: { totalCount: number }) => {
 };
 
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "Articles, release notes, tutorials, and product updates from PlgCraft.",
+  title: {
+    absolute: "PlgCraft Blog | Plugins, Integrations & Software Notes",
+  },
+  description:
+    "Practical articles on plugins, integrations, automation, WooCommerce, and software products by PlgCraft.",
+  keywords: [
+    "PlgCraft blog",
+    "plugins",
+    "integrations",
+    "automation",
+    "WooCommerce",
+    "software products",
+  ],
   alternates: {
     canonical: `${siteConfig.url}/blog`,
+    languages: {
+      "en-US": `${siteConfig.url}/blog`,
+    },
+  },
+  openGraph: {
+    title: "PlgCraft Blog | Plugins, Integrations & Software Notes",
+    description:
+      "Practical articles on plugins, integrations, automation, WooCommerce, and software products by PlgCraft.",
+    type: "website",
+    url: `${siteConfig.url}/blog`,
+    siteName: siteConfig.name,
+  },
+  twitter: {
+    card: "summary",
+    title: "PlgCraft Blog | Plugins, Integrations & Software Notes",
+    description:
+      "Practical articles on plugins, integrations, automation, WooCommerce, and software products by PlgCraft.",
   },
 };

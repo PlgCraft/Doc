@@ -10,10 +10,13 @@ import { siteConfig } from "@/lib/site";
 import { buildHomeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
+  title: "Plugins, Integrations & Software Products for Real Businesses",
   description: siteConfig.description,
   alternates: {
     canonical: siteConfig.url,
+    languages: {
+      "en-US": siteConfig.url,
+    },
   },
 };
 

@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  poweredByHeader: false,
   turbopack: {
     root: __dirname,
   },
