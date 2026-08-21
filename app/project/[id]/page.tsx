@@ -1,4 +1,5 @@
 import { Logo } from "@/components/Logo";
+import { ProductIcon } from "@/components/ProductIcon";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { VideoDemo } from "@/components/VideoDemo";
 import { getAppById, appData } from "@/lib/data";
@@ -181,7 +182,13 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <section className="py-20" style={{ backgroundColor: app.accentColor }}>
         <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
           <div className="reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
-            <div className="text-8xl mb-6">{app.icon}</div>
+            <ProductIcon
+              icon={app.icon}
+              name={app.name}
+              textSizeClass="text-8xl"
+              pixelSize={96}
+              className="mb-6 mx-auto"
+            />
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
               READY TO TRY {app.name.toUpperCase()}?
             </h2>

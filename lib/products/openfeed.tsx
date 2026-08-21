@@ -24,7 +24,7 @@ There's an AI Product Advisor built in that reads through your feedback and road
   category: "saas",
   platform: ["web"],
   statusId: productStatuses.live.id,
-  icon: "💬",
+  icon: "/products/openfeed/logo.png",
   accentColor: "#059669",
   version: "0.1.0",
   releaseDate: "2026-08-21",

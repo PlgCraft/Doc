@@ -8,6 +8,7 @@ import { productStatuses } from "@/lib/data.type";
 import { useState } from "react";
 import { ArrowUpRight, Wrench } from "lucide-react";
 import Link from "next/link";
+import { ProductIcon } from "@/components/ProductIcon";
 
 type SectionCategory = ProductListCategory | "tools";
 
@@ -97,7 +98,7 @@ const AppCard = ({ app, index }: { app: (typeof appData.apps)[number]; index: nu
             style={{ backgroundColor: `${app.accentColor}20` }}
           >
             <div className="flex items-start justify-between">
-              <div className="text-5xl">{app.icon}</div>
+              <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-5xl" pixelSize={48} />
               <div className="flex gap-2">
                 {app.platform.map((p) => (
                   <span key={p} className="bg-black text-white px-2 py-1 text-xs font-bold">
