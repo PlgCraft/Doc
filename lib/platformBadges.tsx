@@ -6,6 +6,7 @@ import {
   SiXero,
   SiAirtable,
 } from "react-icons/si";
+import { Globe } from "lucide-react";
 import { Platform } from "./data.type";
 
 export type Badge = {
@@ -46,5 +47,15 @@ export const platformBadges: Record<Platform, Badge> = {
     text: "INTEGRATES WITH",
     store: "Airtable",
     bg: "bg-[#18BFFF]",
+  },
+  // Generic fallback for a standalone product with its own website rather
+  // than a marketplace listing — products with a specific URL should build
+  // their own Badge (see products/openfeed.ts) instead of using this as-is,
+  // since the href/store here can't be product-specific.
+  web: {
+    icon: <Globe size={50} />,
+    text: "VISIT",
+    store: "Website",
+    bg: "bg-[#059669]",
   },
 };

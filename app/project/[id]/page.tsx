@@ -276,13 +276,15 @@ export async function generateMetadata(props: {
 
   const url = `${siteConfig.url}/project/${app.id}`;
   const image = app.screenshots[0] ? `${siteConfig.url}${app.screenshots[0]}` : undefined;
+  const kicker = app.category === "plugin" ? "plugin" : "app";
+  const title = `${app.name} ${kicker} | PlgCraft`;
 
   return {
     title: {
-      absolute: `${app.name} plugin | PlgCraft`,
+      absolute: title,
     },
     description: app.shortDescription,
-    keywords: [app.name, app.category, ...app.platform, siteConfig.name, "WooCommerce plugin"],
+    keywords: [app.name, app.category, ...app.platform, siteConfig.name],
     authors: [{ name: siteConfig.name }],
     alternates: {
       canonical: url,
@@ -291,7 +293,7 @@ export async function generateMetadata(props: {
       },
     },
     openGraph: {
-      title: `${app.name} plugin | PlgCraft`,
+      title,
       description: app.shortDescription,
       type: "website",
       url,
@@ -300,7 +302,7 @@ export async function generateMetadata(props: {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${app.name} plugin | PlgCraft`,
+      title,
       description: app.shortDescription,
       images: image ? [image] : undefined,
     },
