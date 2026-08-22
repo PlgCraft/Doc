@@ -97,7 +97,7 @@ export const ScreenshotGallery = ({
               onClick={() => setSelectedIndex(index)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`relative shrink-0 w-24 h-40 brutalist-border overflow-hidden ${selectedIndex === index ? "ring-4 ring-red-500" : ""
+              className={`relative shrink-0 w-40 h-24 brutalist-border overflow-hidden ${selectedIndex === index ? "ring-4 ring-red-500" : ""
                 }`}
             >
               <Image

@@ -14,6 +14,7 @@ import { siteConfig } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { buildProductJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
 import type { CSSProperties } from "react";
+import { OpenFeed } from '@openfeed-ink/widget'
 
 export const dynamicParams = false;
 
@@ -186,7 +187,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               icon={app.icon}
               name={app.name}
               textSizeClass="text-8xl"
-              pixelSize={96}
+              pixelSize={200}
               className="mb-6 mx-auto"
             />
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
@@ -263,6 +264,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
       </footer>
+      {app.openfeedId && <OpenFeed projectId={app.openfeedId} />}
     </main>
   );
 }

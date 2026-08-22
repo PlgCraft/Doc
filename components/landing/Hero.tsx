@@ -72,7 +72,7 @@ export default function Hero() {
                           ["--delay" as never]: `${220 + index * 120}ms`,
                         } as CSSProperties}
                       >
-                        <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-5xl" pixelSize={48} className="mb-4" />
+                        <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-5xl" pixelSize={80} className="mb-4" />
                         <h3 className="font-black text-xl mb-2">{app.name}</h3>
                         <p className="text-gray-600 text-sm mb-4">{app.shortDescription}</p>
                         <div className="flex items-center gap-2">

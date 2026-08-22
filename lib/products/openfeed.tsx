@@ -26,7 +26,7 @@ There's an AI Product Advisor built in that reads through your feedback and road
   statusId: productStatuses.live.id,
   icon: "/products/openfeed/logo.png",
   accentColor: "#059669",
-  version: "0.1.0",
+  version: "0.1.1",
   releaseDate: "2026-08-21",
   pricing: {
     label: "$15/mo, or free self-hosted",

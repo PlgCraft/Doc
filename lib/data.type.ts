@@ -106,6 +106,7 @@ export type ProductPricing = {
 
 export type Product = {
   id: string;
+  openfeedId?: string;
   name: string;
   shortDescription: string;
   fullDescription: string;

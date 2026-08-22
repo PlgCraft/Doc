@@ -98,7 +98,7 @@ const AppCard = ({ app, index }: { app: (typeof appData.apps)[number]; index: nu
             style={{ backgroundColor: `${app.accentColor}20` }}
           >
             <div className="flex items-start justify-between">
-              <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-5xl" pixelSize={48} />
+              <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-5xl" pixelSize={80} />
               <div className="flex gap-2">
                 {app.platform.map((p) => (
                   <span key={p} className="bg-black text-white px-2 py-1 text-xs font-bold">
