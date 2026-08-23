@@ -115,7 +115,7 @@ export type Product = {
   icon: string;
   accentColor: string;
   version: string;
-  releaseDate: `${number}-${number}-${number}`;
+  releaseDate: string;
   pricing: ProductPricing;
   screenshots: readonly string[];
   features: readonly AppFeature[];

@@ -27,7 +27,7 @@ There's an AI Product Advisor built in that reads through your feedback and road
   icon: "/products/openfeed/logo.png",
   accentColor: "#059669",
   version: "0.1.1",
-  releaseDate: "2026-08-21",
+  releaseDate: "2025-08-21",
   pricing: {
     label: "$15/mo, or free self-hosted",
     amount: 15,

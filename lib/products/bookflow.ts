@@ -24,7 +24,7 @@ QuickBooks Online is supported today. Xero is built into the same architecture a
   icon: "/products/bookflow/logo.png",
   accentColor: "#2563EB",
   version: "0.1.0",
-  releaseDate: "2026-08-05",
+  releaseDate: "----",
   pricing: {
     label: "Coming soon",
     kind: "coming-soon",
