@@ -14,7 +14,7 @@ import { siteConfig } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { buildProductJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
 import type { CSSProperties } from "react";
-import { OpenFeed } from '@openfeed-ink/widget'
+import { FeedbackDrawer } from "@/components/feedback/FeedbackDrawer";
 
 export const dynamicParams = false;
 
@@ -264,7 +264,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
       </footer>
-      {app.openfeedId && <OpenFeed projectId={app.openfeedId} />}
+      <FeedbackDrawer productId={app.id} productName={app.name} accentColor={app.accentColor} />
     </main>
   );
 }

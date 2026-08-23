@@ -4,7 +4,6 @@ import { platformBadges } from "../platformBadges";
 
 export const bookFlow = {
   id: "bookflow",
-  openfeedId: "9KnCCof0FbfqbpVJqG_wm",
   name: "Book Flow",
   shortDescription:
     "Every WooCommerce order, refund, and payout synced to QuickBooks the moment it happens, as its own real document, matched down to the fee and the penny of tax.",
