@@ -21,7 +21,7 @@ Once it's running, everything lives in three tabs inside your WordPress admin: C
 
 QuickBooks Online is supported today. Xero is built into the same architecture and is next.`,
   category: "plugin",
-  platform: ["woocommerce", "quickbooks", "xero"],
+  platform: ["woocommerce", "quickbooks"],
   statusId: productStatuses.development.id,
   icon: "/products/bookflow/logo.png",
   accentColor: "#2563EB",
