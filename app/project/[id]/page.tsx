@@ -15,6 +15,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { buildProductJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
 import type { CSSProperties } from "react";
 import { FeedbackDrawer } from "@/components/feedback/FeedbackDrawer";
+import { HowItWorks } from "@/components/product/HowItWorks";
+import { KeyConcepts } from "@/components/product/KeyConcepts";
 
 export const dynamicParams = false;
 
@@ -141,6 +143,10 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
       </section>
+
+      {app.glossary && <KeyConcepts data={app.glossary} />}
+
+      {app.howItWorks && <HowItWorks data={app.howItWorks} accentColor={app.accentColor} />}
 
       {app.videoDemo && (
         <section className="py-16">

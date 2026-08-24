@@ -104,6 +104,46 @@ export type ProductPricing = {
   kind?: "free" | "paid" | "coming-soon";
 };
 
+export type HowItWorksImage = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
+export type HowItWorksStep = {
+  tag: string;
+  title: string;
+  description: string;
+  images: readonly HowItWorksImage[];
+};
+
+export type HowItWorks = {
+  eyebrow: string;
+  heading: string;
+  headingAccent: string;
+  intro?: string;
+  steps: readonly HowItWorksStep[];
+  closing?: {
+    title: string;
+    description: string;
+    badges: readonly string[];
+  };
+};
+
+export type GlossaryTerm = {
+  term: string;
+  definition: string;
+};
+
+export type Glossary = {
+  eyebrow: string;
+  heading: string;
+  headingAccent: string;
+  intro?: string;
+  terms: readonly GlossaryTerm[];
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -124,6 +164,8 @@ export type Product = {
   videoDemo?: string;
   testimonials: readonly Testimonial[];
   featured: boolean;
+  howItWorks?: HowItWorks;
+  glossary?: Glossary;
 };
 
 export type ProductListCategory = ProductCategory | "all";

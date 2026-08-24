@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
@@ -21,18 +22,52 @@ export const ScreenshotGallery = ({
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [naturalSize, setNaturalSize] = useState<{ width: number; height: number } | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Portal target isn't available during SSR, and mounting only on the
+  // client also keeps the portal out of any transformed/clipped ancestor
+  // (e.g. the .reveal-up scroll animations) so "fixed" truly means fixed.
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const hasScreenshots = screenshots.length > 0;
 
   const nextImage = () => {
+    setNaturalSize(null);
     setSelectedIndex((prev) => (prev + 1) % screenshots.length);
   };
 
   const prevImage = () => {
+    setNaturalSize(null);
     setSelectedIndex(
       (prev) => (prev - 1 + screenshots.length) % screenshots.length
     );
   };
+
+  const closeModal = () => setIsModalOpen(false);
+
+  // Escape to close, arrow keys to navigate, and lock body scroll while open.
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowRight") nextImage();
+      if (e.key === "ArrowLeft") prevImage();
+    };
+    document.addEventListener("keydown", onKeyDown);
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isModalOpen]);
 
   // No screenshots
   if (!hasScreenshots) {
@@ -67,7 +102,10 @@ export const ScreenshotGallery = ({
         <motion.div
           layoutId="main-screenshot"
           className="relative aspect-9/16 md:aspect-video brutalist-border brutalist-shadow overflow-hidden cursor-pointer"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setNaturalSize(null);
+            setIsModalOpen(true);
+          }}
         >
           <MotionImage
             key={screenshots[selectedIndex]}
@@ -112,82 +150,109 @@ export const ScreenshotGallery = ({
         </div>
       </div>
 
-      {/* Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
-            onClick={() => setIsModalOpen(false)}
-          >
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-white p-2 hover:bg-white/20"
-              aria-label="Close gallery"
-            >
-              <X size={32} />
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prevImage();
-              }}
-              className="absolute left-4 text-white p-4 hover:bg-white/20"
-              aria-label="Previous screenshot"
-            >
-              <ChevronLeft size={40} />
-            </button>
-
-            <motion.div
-              className="relative max-h-[90vh] max-w-[90vw] w-full h-full"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={screenshots[selectedIndex]}
-                alt={`${appName} screenshot ${selectedIndex + 1}`}
-                fill
-                sizes="90vw"
-                className="object-contain brutalist-border"
-                priority
-              />
-            </motion.div>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nextImage();
-              }}
-              className="absolute right-4 text-white p-4 hover:bg-white/20"
-              aria-label="Next screenshot"
-            >
-              <ChevronRight size={40} />
-            </button>
-
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {screenshots.map((_, index) => (
+      {/* Modal, portaled to <body> so it's never clipped or mispositioned by
+          a transformed/overflow-hidden ancestor like the hero's .reveal-up */}
+      {isMounted &&
+        createPortal(
+          <AnimatePresence>
+            {isModalOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-4 md:p-10"
+                onClick={closeModal}
+              >
                 <button
-                  key={index}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedIndex(index);
+                  type="button"
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 z-10 text-white p-2 hover:bg-white/20"
+                  aria-label="Close gallery"
+                >
+                  <X size={28} />
+                </button>
+
+                {screenshots.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prevImage();
+                    }}
+                    className="absolute left-1 md:left-4 z-10 text-white p-2 md:p-4 hover:bg-white/20"
+                    aria-label="Previous screenshot"
+                  >
+                    <ChevronLeft size={32} />
+                  </button>
+                )}
+
+                <motion.div
+                  className="relative flex items-center justify-center"
+                  style={{
+                    width: naturalSize ? `min(${naturalSize.width}px, 90vw)` : "90vw",
+                    height: naturalSize ? `min(${naturalSize.height}px, 80vh)` : "80vh",
                   }}
-                  aria-label={`Go to screenshot ${index + 1}`}
-                  className={`w-3 h-3 ${selectedIndex === index
-                      ? "bg-white"
-                      : "bg-white/40"
-                    }`}
-                />
-              ))}
-            </div>
-          </motion.div>
+                  initial={{ scale: 0.92, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.92, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Image
+                    key={screenshots[selectedIndex]}
+                    src={screenshots[selectedIndex]}
+                    alt={`${appName} screenshot ${selectedIndex + 1}`}
+                    fill
+                    sizes="90vw"
+                    quality={95}
+                    className="object-contain brutalist-border bg-white"
+                    priority
+                    onLoad={(e) => {
+                      const img = e.currentTarget;
+                      setNaturalSize({ width: img.naturalWidth, height: img.naturalHeight });
+                    }}
+                  />
+                </motion.div>
+
+                {screenshots.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextImage();
+                    }}
+                    className="absolute right-1 md:right-4 z-10 text-white p-2 md:p-4 hover:bg-white/20"
+                    aria-label="Next screenshot"
+                  >
+                    <ChevronRight size={32} />
+                  </button>
+                )}
+
+                {screenshots.length > 1 && (
+                  <div className="relative z-10 mt-4 flex flex-wrap justify-center gap-2 max-w-full px-4">
+                    {screenshots.map((_, index) => (
+                      <button
+                        type="button"
+                        key={index}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setNaturalSize(null);
+                          setSelectedIndex(index);
+                        }}
+                        aria-label={`Go to screenshot ${index + 1}`}
+                        className={`w-2.5 h-2.5 rounded-full shrink-0 ${selectedIndex === index
+                            ? "bg-white"
+                            : "bg-white/40"
+                          }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </>
   );
 };
