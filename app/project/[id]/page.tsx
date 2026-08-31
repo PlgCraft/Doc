@@ -1,7 +1,6 @@
 import { Logo } from "@/components/Logo";
 import { ProductIcon } from "@/components/ProductIcon";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
-import { VideoDemo } from "@/components/VideoDemo";
 import { getAppById, appData } from "@/lib/data";
 import { Testimonial } from "@/lib/data.type";
 import { Badge } from "@/lib/platformBadges";
@@ -51,7 +50,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         style={{ backgroundColor: `${app.accentColor}15` }}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 lg:grid-cols-[0.8fr_1.2fr] gap-12 items-center">
             <div className="reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
               <div className="flex flex-wrap gap-2 mb-4">
                 {app.platform.map((p) => (
@@ -75,7 +74,11 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             </div>
 
             <div className="reveal-up" style={{ ["--delay" as never]: "180ms" } as CSSProperties}>
-              <ScreenshotGallery screenshots={app.screenshots} appName={app.name} />
+              <ScreenshotGallery
+                screenshots={app.screenshots}
+                appName={app.name}
+                videoUrl={app.videoDemo}
+              />
             </div>
           </div>
         </div>
@@ -147,23 +150,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       {app.glossary && <KeyConcepts data={app.glossary} />}
 
       {app.howItWorks && <HowItWorks data={app.howItWorks} accentColor={app.accentColor} />}
-
-      {app.videoDemo && (
-        <section className="py-16">
-          <div className="max-w-4xl mx-auto px-4 md:px-8">
-            <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
-              <span className="inline-block bg-yellow-400 text-black px-4 py-2 text-sm font-bold mb-4">
-                VIDEO
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black">
-                SEE IT IN <span className="text-stroke text-transparent">ACTION</span>
-              </h2>
-            </div>
-
-            <VideoDemo videoUrl={app.videoDemo} appName={app.name} />
-          </div>
-        </section>
-      )}
 
       {app.testimonials && app.testimonials.length > 0 && (
         <section className="py-16 bg-black text-white">
