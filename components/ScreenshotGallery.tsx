@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -12,7 +12,14 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-const MotionImage = motion(Image);
+const MotionImage = motion.create(Image);
+
+// Stable no-op subscription: we only need useSyncExternalStore for its
+// client/server snapshot split (true once hydrated, false during SSR), not
+// for any actual external updates.
+const subscribeNoop = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 type MediaItem =
   | { type: "image"; src: string }
@@ -31,14 +38,11 @@ export const ScreenshotGallery = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [naturalSize, setNaturalSize] = useState<{ width: number; height: number } | null>(null);
   const [videoSize, setVideoSize] = useState<{ width: number; height: number } | null>(null);
-  const [isMounted, setIsMounted] = useState(false);
 
   // Portal target isn't available during SSR, and mounting only on the
   // client also keeps the portal out of any transformed/clipped ancestor
   // (e.g. the .reveal-up scroll animations) so "fixed" truly means fixed.
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useSyncExternalStore(subscribeNoop, getClientSnapshot, getServerSnapshot);
 
   // The demo video, when present, leads the gallery, followed by every screenshot.
   const media: MediaItem[] = videoUrl
@@ -86,7 +90,7 @@ export const ScreenshotGallery = ({
   // No screenshots and no video
   if (!hasMedia) {
     return (
-      <div className="relative w-full max-w-187.5 aspect-5/3 mx-auto brutalist-border brutalist-shadow overflow-hidden bg-muted/40 flex items-center justify-center">
+      <div className="relative w-full max-w-187.5 aspect-40/21 mx-auto brutalist-border brutalist-shadow overflow-hidden bg-muted/40 flex items-center justify-center">
         <div className="flex flex-col items-center justify-center gap-4 text-center p-8">
           <div className="w-20 h-20 brutalist-border bg-background flex items-center justify-center">
             <ImageOff
@@ -111,11 +115,11 @@ export const ScreenshotGallery = ({
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {/* Main media */}
         <motion.div
           layoutId="main-screenshot"
-          className="relative w-full max-w-187.5 aspect-5/3 mx-auto brutalist-border brutalist-shadow overflow-hidden cursor-pointer bg-gray-100"
+          className="relative w-full max-w-187.5 aspect-40/21 mx-auto brutalist-border brutalist-shadow overflow-hidden cursor-pointer bg-muted/40 flex items-center justify-center"
           onClick={() => {
             setNaturalSize(null);
             setIsModalOpen(true);
@@ -130,7 +134,7 @@ export const ScreenshotGallery = ({
               loop
               playsInline
               preload="metadata"
-              className="absolute inset-0 w-full h-full object-contain"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
             <MotionImage
@@ -139,7 +143,7 @@ export const ScreenshotGallery = ({
               alt={`${appName} screenshot ${selectedIndex + 1}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-contain"
+              className="object-cover"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -192,6 +196,7 @@ export const ScreenshotGallery = ({
                 <Image
                   src={item.src}
                   alt={`Thumbnail ${index + 1}`}
+                  priority={index === 0}
                   fill
                   sizes="96px"
                   className="object-cover"
@@ -321,8 +326,8 @@ export const ScreenshotGallery = ({
                         }}
                         aria-label={`Go to item ${index + 1}`}
                         className={`w-2.5 h-2.5 rounded-full shrink-0 ${selectedIndex === index
-                            ? "bg-white"
-                            : "bg-white/40"
+                          ? "bg-white"
+                          : "bg-white/40"
                           }`}
                       />
                     ))}

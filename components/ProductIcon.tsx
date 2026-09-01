@@ -20,12 +20,13 @@ export function ProductIcon({
   className?: string;
 }) {
   return (
-    <div className={`bg-white rounded-2xl w-[${pixelSize}px]`}>
+    <div className="bg-white rounded-2xl" style={{ width: pixelSize }}>
       {icon.startsWith("/") ? (<Image
         src={icon}
         alt={`${name} logo`}
         width={pixelSize}
         height={pixelSize}
+        style={{ width: pixelSize, height: pixelSize }}
         className={cn("object-contain", className)}
       />
       ) : (<div className={cn(textSizeClass, className)}>{icon}</div>)}

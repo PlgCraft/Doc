@@ -50,8 +50,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         style={{ backgroundColor: `${app.accentColor}15` }}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-[0.8fr_1.2fr] gap-12 items-center">
-            <div className="reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+          <div className="flex flex-col md:flex-row gap-12 items-center">
+            <div className="reveal-up md:w-2/5 md:shrink-0" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
               <div className="flex flex-wrap gap-2 mb-4">
                 {app.platform.map((p) => (
                   <span
@@ -73,7 +73,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               </div>
             </div>
 
-            <div className="reveal-up" style={{ ["--delay" as never]: "180ms" } as CSSProperties}>
+            <div className="reveal-up w-full md:flex-1 min-w-0" style={{ ["--delay" as never]: "180ms" } as CSSProperties}>
               <ScreenshotGallery
                 screenshots={app.screenshots}
                 appName={app.name}

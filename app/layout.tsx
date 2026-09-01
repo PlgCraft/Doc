@@ -1,4 +1,5 @@
 import "./global.css";
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Chivo, JetBrains_Mono, Manrope } from "next/font/google";
 import type { Metadata } from "next";
 import { RootProvider } from "fumadocs-ui/provider/next";
@@ -65,22 +66,24 @@ export default function Layout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${manrope.variable} ${chivo.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <meta name="apple-mobile-web-app-title" content="PlgCraft" />
       </head>
-      <body className="font-sans-brutal antialiased text-black">
+      <body className="font-sans-brutal antialiased text-black" suppressHydrationWarning>
         <RootProvider
           search={{
             links: [["Home", "/"], ...mainNavLinks.map((link): [string, string] => [link.label, link.href])],
           }}
           theme={{
-            defaultTheme: "dark",
+            defaultTheme: "light",
           }}
         >
           <Navbar />
           {children}
+          <GoogleAnalytics gaId="G-RYBZD5ZE87" />
         </RootProvider>
       </body>
     </html>

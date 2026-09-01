@@ -13,7 +13,7 @@ export const Logo = ({ withBG }: { withBG?: boolean }) => {
         alt="PlgCraft logo"
         height={50}
         width={50}
-        className={withBG ? "bg-white rounded-2xl" : ""}
+        className={`w-[50px] h-[50px] ${withBG ? "bg-white rounded-2xl" : ""}`}
       />
       <span className="text-4xl">
         PlgCraft
