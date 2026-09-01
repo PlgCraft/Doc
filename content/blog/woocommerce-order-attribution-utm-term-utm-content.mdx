@@ -1,0 +1,321 @@
+---
+title: "WooCommerce Is Already Tracking Your Best Marketing Data. It Just Won't Show You."
+description: "WooCommerce Order Attribution already captures UTM data such as utm_term and utm_content, but the standard order screen does not show them. Here's how to find the data and make it useful."
+author: "Ali Amer"
+date: "2026-09-01"
+category: Marketing
+tags: ["WooCommerce", "UTM", "analytics"]
+featured: false
+---
+
+If you've looked at the **Order attribution** section on a WooCommerce order, you've probably seen things like:
+
+- Source
+- Medium
+- Campaign
+- Source type
+- Device type
+
+That's useful.
+
+But if you're running paid ads, it leaves out some of the information you probably care about most.
+
+Which keyword brought the customer?
+
+Which ad variation did they click?
+
+Which version of an email actually brought in the sale?
+
+The slightly strange part is that WooCommerce can already have this information.
+
+It just doesn't show all of it to you.
+
+## The two fields hiding in your orders
+
+WooCommerce's Order Attribution feature was introduced in WooCommerce 8.5. It tracks information from UTM parameters and stores attribution data with the order.
+
+Among those fields are:
+
+```text
+utm_source
+utm_medium
+utm_campaign
+utm_content
+utm_term
+utm_id
+```
+
+Most store owners are familiar with the first three.
+
+The other two are where things get interesting.
+
+### `utm_term`
+
+`utm_term` is commonly used to identify the keyword associated with an ad.
+
+For example:
+
+```text
+utm_source=google
+utm_medium=cpc
+utm_campaign=running-shoes
+utm_term=best-running-shoes
+```
+
+Now you have more than just "Google paid traffic."
+
+You have an indication of the keyword associated with that visit.
+
+If you're spending money on a lot of different search terms, that can be much more useful.
+
+You might discover that one keyword consistently brings customers who buy, while another keyword gets plenty of clicks but very few orders.
+
+Without the term, those orders can all look like the same thing.
+
+### `utm_content`
+
+`utm_content` is useful when you want to distinguish between different pieces of content inside the same campaign.
+
+For example:
+
+```text
+utm_campaign=summer-sale
+utm_content=carousel-ad
+```
+
+and:
+
+```text
+utm_campaign=summer-sale
+utm_content=single-image-ad
+```
+
+Both ads belong to the same campaign.
+
+But they're not the same ad.
+
+The same idea can be useful for email links, landing page variations, different calls to action, and other experiments.
+
+Once you start testing different versions of something, `utm_content` gives you another way to tell them apart.
+
+## So why don't I see them?
+
+This is the strange part.
+
+WooCommerce already has the data available, but the standard **Order attribution** display doesn't show `utm_term` or `utm_content`.
+
+This isn't just something someone noticed on a random blog.
+
+There is an open WooCommerce feature request specifically asking for these two fields to be displayed in the order attribution box. The request was submitted in January 2025 and points out that the data is already tracked.
+
+There is also a corresponding WooCommerce GitHub issue requesting that `utm_term` and `utm_content` be added to the attribution display.
+
+So the problem isn't that WooCommerce doesn't know about the data.
+
+It's that the normal interface doesn't give you an easy way to see it.
+
+## You can check the data yourself
+
+If you're comfortable looking at order metadata, you can check for:
+
+```text
+_wc_order_attribution_utm_term
+_wc_order_attribution_utm_content
+```
+
+For example, the following PHP snippet adds the values to the WooCommerce order screen:
+
+```php
+add_action( 'woocommerce_admin_order_data_after_order_details', function ( $order ) {
+    $utm_term    = $order->get_meta( '_wc_order_attribution_utm_term' );
+    $utm_content = $order->get_meta( '_wc_order_attribution_utm_content' );
+
+    if ( ! $utm_term && ! $utm_content ) {
+        return;
+    }
+
+    echo '<div class="order_data_column" style="margin-top: 12px;">';
+    echo '<h4>' . esc_html__( 'Additional attribution', 'your-textdomain' ) . '</h4>';
+
+    if ( $utm_term ) {
+        echo '<p><strong>' . esc_html__( 'UTM term:', 'your-textdomain' ) . '</strong> ' . esc_html( $utm_term ) . '</p>';
+    }
+
+    if ( $utm_content ) {
+        echo '<p><strong>' . esc_html__( 'UTM content:', 'your-textdomain' ) . '</strong> ' . esc_html( $utm_content ) . '</p>';
+    }
+
+    echo '</div>';
+} );
+```
+
+I'd put this in a small custom plugin rather than your theme if you're using it beyond a quick test.
+
+Then try a URL such as:
+
+```text
+https://example.com/?utm_source=google&utm_medium=cpc&utm_campaign=test&utm_term=running+shoes&utm_content=carousel_ad_2
+```
+
+Place a test order from that session and check the order metadata.
+
+The exact attribution behavior can depend on how the visitor reaches the store and how the session is handled, so don't assume that adding UTM parameters to a URL guarantees every field will appear on every order.
+
+That's worth testing on your own setup.
+
+## But seeing one order isn't really the interesting part
+
+This is where I think the problem gets more interesting.
+
+Looking at one order and seeing:
+
+```text
+utm_term = running shoes
+utm_content = carousel_ad_2
+```
+
+is nice.
+
+But what you actually want to know is something like:
+
+> "Which keywords generated revenue for me last month?"
+
+Or:
+
+> "Which ad variation generated the most orders?"
+
+Or:
+
+> "How much revenue came from this campaign?"
+
+That's a different problem.
+
+You need to look across your orders.
+
+You need to group the attribution data.
+
+You need to compare it with revenue.
+
+And ideally, you want to see what happened after the first purchase too.
+
+That's where raw UTM values become useful marketing information instead of just another piece of metadata.
+
+## WooCommerce knows more than the dashboard shows
+
+This is the part I find interesting.
+
+A lot of store owners assume that if something isn't visible in the WooCommerce admin, WooCommerce isn't collecting it.
+
+That's not always true.
+
+The Order Attribution system collects considerably more information than the small box you normally see on an order. The current attribution implementation includes several UTM fields as well as other session information.
+
+The problem is turning that information into something you can actually use.
+
+And that's a recurring problem with ecommerce software.
+
+The data exists.
+
+The difficult part is making it useful.
+
+## There is another limitation
+
+Even if you expose `utm_term` and `utm_content`, you're still looking at attribution on individual orders.
+
+That's useful for investigating a specific purchase.
+
+It isn't a proper marketing report.
+
+You probably don't want to open 500 orders and write down the keywords manually.
+
+You want something closer to:
+
+| Keyword | Orders | Revenue |
+| --- | ---: | ---: |
+| running shoes | 24 | €1,840 |
+| trail running shoes | 11 | €920 |
+| cheap running shoes | 3 | €120 |
+
+Now you're starting to get an answer to a business question.
+
+Which traffic actually makes money?
+
+That's much more useful than knowing that an order came from Google.
+
+## This is the gap we're interested in
+
+At PlgCraft, we've been working on this idea with **SourceFlow**.
+
+The goal isn't to give you another giant analytics dashboard with 50 charts.
+
+It's to take the attribution information that's already being collected and make it easier to understand.
+
+Which channels bring orders?
+
+Which campaigns bring revenue?
+
+Which keywords are worth the money?
+
+Which ad variations actually convert?
+
+And eventually, which customers come back?
+
+The interesting data is already much closer than most store owners realize.
+
+Sometimes the problem isn't collecting more data.
+
+It's simply making better use of the data you already have.
+
+## One more thing before you start changing your tracking
+
+UTM parameters are only useful when they're used consistently.
+
+If one campaign uses:
+
+```text
+utm_campaign=summer_sale
+```
+
+and another uses:
+
+```text
+utm_campaign=Summer-Sale
+```
+
+you've created two different values for something you probably intended to be the same campaign.
+
+The same goes for source, medium, content, and term.
+
+Pick a naming convention and stick to it.
+
+Otherwise, your reports eventually become a collection of slightly different spellings that are difficult to compare.
+
+Good attribution starts before the customer reaches your store.
+
+## The bigger lesson
+
+I don't think WooCommerce has a data problem here.
+
+It has a visibility problem.
+
+The information is valuable.
+
+The platform already captures some of it.
+
+But unless you know where to look, you might never realize it's there.
+
+And that's a useful reminder when working with ecommerce platforms in general.
+
+Before installing another tracking system or adding another analytics service, it can be worth asking a simpler question:
+
+**What data am I already collecting that I can't easily see?**
+
+Sometimes the answer is more useful than you expect.
+
+---
+
+**Want to see what your WooCommerce attribution data looks like?**
+
+We're building SourceFlow around this exact problem: turning WooCommerce's existing attribution data into something you can actually use to understand where your sales are coming from.
+
+If you'd like to talk about your store or your attribution setup, [get in touch](mailto:aliamer19ali@gmail.com).
