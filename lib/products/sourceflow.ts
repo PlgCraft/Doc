@@ -32,13 +32,13 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
     kind: "coming-soon",
   },
   screenshots: [
-    "/products/sourceflow/overview.png",
-    "/products/sourceflow/links.png",
-    "/products/sourceflow/link-detail.png",
-    "/products/sourceflow/content.png",
-    "/products/sourceflow/customers.png",
-    "/products/sourceflow/products.png",
-    "/products/sourceflow/new-link.png",
+    "/products/sourceflow/bg-hero.png",
+    "/products/sourceflow/screen-1.png",
+    "/products/sourceflow/screen-2.png",
+    "/products/sourceflow/screen-3.png",
+    "/products/sourceflow/screen-4.png",
+    "/products/sourceflow/screen-5.png",
+    "/products/sourceflow/screen-6.png",
   ],
   features: [
     {
