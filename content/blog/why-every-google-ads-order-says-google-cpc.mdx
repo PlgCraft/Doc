@@ -1,0 +1,411 @@
+---
+title: "Why Every Google Ads Order in WooCommerce Says google_cpc (And How to Actually Fix It)"
+description: "If your WooCommerce orders all show google_cpc for Google Ads traffic, here's why it happens, what gclid actually does, and how to pass useful campaign data into WooCommerce."
+author: "Ali Amer"
+tags: ["Woo", "UTM", "Google Analytics"]
+category: Marketing
+date: "2026-09-02"
+featured: false
+product: "sourceflow" 
+---
+
+You spent time organizing your Google Ads account.
+
+You have campaigns.
+
+You have ad groups.
+
+You have keywords.
+
+Maybe you even have different ads running against the same audience so you can figure out which ones actually convert.
+
+Then you open a WooCommerce order and see this:
+
+```text
+Source: google
+Medium: cpc
+Campaign: google_cpc
+```
+
+You check another order.
+
+Same thing.
+
+Another campaign?
+
+Same thing.
+
+Another keyword?
+
+Still `google_cpc`.
+
+At first, it looks like WooCommerce is losing your Google Ads data.
+
+The situation is a little more interesting than that.
+
+## What Google Ads is actually sending
+
+If you have Google Ads auto-tagging enabled, Google adds a `gclid` parameter to the landing page URL when someone clicks an ad.
+
+It looks something like this:
+
+```text
+https://example.com/product/running-shoes/?gclid=abc123...
+```
+
+The `gclid` is a Google Click Identifier.
+
+Google uses it to connect the click with information in its own advertising and conversion systems.
+
+The important thing to understand is that the `gclid` itself isn't a nice readable description of your campaign.
+
+It doesn't look like this:
+
+```text
+campaign=summer-running-shoes
+ad_group=trail-shoes
+keyword=best-trail-running-shoes
+```
+
+It's an identifier.
+
+So if WooCommerce receives a visitor with a `gclid`, it knows something useful:
+
+> This visitor came from Google Ads.
+
+But that doesn't automatically give WooCommerce the campaign name, ad group, or keyword in the form its attribution system can display.
+
+That's where the `google_cpc` value comes from.
+
+## gclid and UTM parameters are not the same thing
+
+This is probably the most important part of the whole article.
+
+Auto-tagging and UTM tagging solve different problems.
+
+Google's auto-tagging gives you a `gclid`.
+
+UTM parameters give the destination URL explicit information such as:
+
+```text
+utm_source
+utm_medium
+utm_campaign
+utm_content
+utm_term
+```
+
+For example:
+
+```text
+https://example.com/product/running-shoes/
+?utm_source=google
+&utm_medium=cpc
+&utm_campaign=summer_running
+&utm_content=ad_02
+&utm_term=trail_running_shoes
+```
+
+Now there is information in the URL that another system can actually read.
+
+WooCommerce doesn't have to decode a Google click ID and somehow reconstruct your campaign structure.
+
+You've already told it.
+
+## Why WooCommerce falls back to google_cpc
+
+WooCommerce's Order Attribution feature recognizes Google Ads traffic through the `gclid`.
+
+When the attribution data doesn't contain the UTM campaign information WooCommerce expects, it can fall back to a generic attribution value such as:
+
+```text
+google_cpc
+```
+
+That's why the result can be confusing.
+
+Google Ads knows exactly which campaign generated the click.
+
+Google knows which ad was clicked.
+
+Google knows which keyword was involved.
+
+But WooCommerce may only have enough information to say:
+
+> Google paid traffic.
+
+Nothing is necessarily broken.
+
+The two systems simply aren't receiving the same level of information.
+
+This behavior has also been discussed in WooCommerce's own feature request system, where the explanation was that a URL containing only a `gclid` results in the generic `google_cpc` attribution. Adding UTM parameters gives WooCommerce the additional information it needs. 
+
+## So how do you fix it?
+
+Keep Google Ads auto-tagging enabled.
+
+Then add UTM parameters as well.
+
+You can do this using Google Ads URL options, such as a tracking template or final URL suffix, depending on how you have your campaigns configured.
+
+A basic example is:
+
+```text
+utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_content={adgroupid}&utm_term={keyword}
+```
+
+Google Ads can replace these ValueTrack parameters with the corresponding values when the ad is clicked.
+
+For example, your URL might end up looking conceptually like:
+
+```text
+utm_source=google
+utm_medium=cpc
+utm_campaign=123456789
+utm_content=987654321
+utm_term=running+shoes
+```
+
+Now WooCommerce has something much more useful to work with.
+
+## One important detail about campaign names
+
+There is a small trap here.
+
+Google Ads ValueTrack parameters such as `{campaignid}` give you the campaign ID, not necessarily the human-readable campaign name.
+
+That's not necessarily bad.
+
+IDs are stable identifiers and are useful when you're joining data between systems.
+
+But if you specifically want a readable campaign name such as:
+
+```text
+Summer Running Shoes
+```
+
+you need to decide how you want your tracking structure to represent that information.
+
+Don't blindly copy a tracking template from a random blog and assume it will give you exactly the report you want.
+
+Think about the data you actually need first.
+
+For example:
+
+```text
+utm_source=google
+utm_medium=cpc
+utm_campaign={campaignid}
+utm_content={adgroupid}
+utm_term={keyword}
+```
+
+is one possible structure.
+
+Your own naming convention might make more sense for your business.
+
+The important thing is consistency.
+
+## Keep the gclid
+
+You might be wondering:
+
+> If I'm adding UTMs, can I just turn off auto-tagging?
+
+I wouldn't do that just to solve this WooCommerce problem.
+
+The `gclid` is useful to Google's own systems, while the UTM parameters give other systems readable attribution information.
+
+There is no need to choose one simply because you're using the other.
+
+Think of them as two different pieces of tracking information serving different purposes.
+
+## Don't forget utm_content
+
+This is where the setup becomes particularly useful.
+
+Suppose you have two ads inside the same campaign.
+
+Both are targeting the same audience.
+
+Both use the same landing page.
+
+But one is a video and the other is a static image.
+
+You could distinguish them with `utm_content`.
+
+For example:
+
+```text
+utm_content=video_ad
+```
+
+and:
+
+```text
+utm_content=static_image_ad
+```
+
+Now you can eventually answer a much more interesting question:
+
+> Which ad actually generated the sale?
+
+The campaign name alone can't tell you that.
+
+## And don't forget utm_term
+
+The same idea applies to keywords.
+
+Imagine you're spending money on:
+
+```text
+running shoes
+trail running shoes
+best running shoes
+cheap running shoes
+```
+
+If all of those orders eventually appear as:
+
+```text
+google / cpc / google_cpc
+```
+
+you've lost a useful distinction inside your ecommerce data.
+
+If `utm_term` is captured, you have another piece of information that can be connected to the order.
+
+That means you can eventually look at something closer to:
+
+| Keyword | Orders | Revenue |
+| --- | ---: | ---: |
+| running shoes | 24 | €1,840 |
+| trail running shoes | 11 | €920 |
+| best running shoes | 8 | €710 |
+| cheap running shoes | 3 | €120 |
+
+Now you're not just looking at clicks.
+
+You're looking at sales.
+
+That's a much more useful conversation.
+
+## There is another WooCommerce limitation
+
+There's a second problem hiding here.
+
+Even after you start sending the UTM parameters, WooCommerce doesn't show every attribution field in the standard order screen.
+
+In particular, `utm_term` and `utm_content` can be stored with the order but aren't normally displayed alongside the other attribution information.
+
+We covered that in the previous article:
+
+[WooCommerce Is Already Tracking Your Best Marketing Data. It Just Won't Show You.]
+
+So there are really two separate problems:
+
+**First:** Google Ads needs to send enough information for WooCommerce to distinguish your traffic.
+
+**Second:** WooCommerce needs to expose that information in a useful way.
+
+Fixing only one of them isn't enough.
+
+## Don't judge your ads from the channel name
+
+This is the bigger reason I think this matters.
+
+"Google / CPC" isn't really an answer.
+
+It's a starting point.
+
+If you're spending €500 on Google Ads, you don't just want to know that Google generated sales.
+
+You want to know which part of that €500 worked.
+
+Which campaign?
+
+Which keyword?
+
+Which ad?
+
+Which landing page?
+
+And eventually:
+
+Which customers were actually worth acquiring?
+
+That's where ecommerce attribution gets interesting.
+
+The goal isn't to collect more tracking parameters just because you can.
+
+The goal is to connect marketing activity to actual business outcomes.
+
+## A simple way to think about the whole thing
+
+The flow should look roughly like this:
+
+```text
+Google Ad
+    ↓
+Click
+    ↓
+gclid + UTM parameters
+    ↓
+WooCommerce session
+    ↓
+Order
+    ↓
+Order attribution
+    ↓
+Revenue analysis
+```
+
+Google knows about the click.
+
+WooCommerce knows about the order.
+
+The useful part is connecting the two.
+
+That's what good attribution is really about.
+
+## The problem isn't Google Ads
+
+It's easy to look at `google_cpc` and think WooCommerce is broken.
+
+I don't think that's quite fair.
+
+Google Ads and WooCommerce are solving different problems.
+
+Google has its own attribution and conversion systems.
+
+WooCommerce needs information it can store with an order.
+
+The gap appears when we assume that Google's auto-tagging automatically gives every other system all the marketing information we care about.
+
+It doesn't.
+
+If you want WooCommerce to understand your campaign structure, give WooCommerce campaign information it can actually read.
+
+## The bigger picture
+
+This is one of those small ecommerce problems that can have a surprisingly large impact.
+
+You can spend hours optimizing campaigns, changing bids, testing ads, and improving landing pages.
+
+But if your store can't connect those clicks to the orders they eventually generate, part of that work becomes much harder to evaluate.
+
+The good news is that you don't necessarily need another complicated tracking system to start.
+
+Sometimes you just need to make better use of the information you're already sending.
+
+And if you're already using WooCommerce Order Attribution, you may be closer than you think.
+
+The data just needs a little more context.
+
+---
+
+At PlgCraft, we're interested in exactly this kind of problem.
+
+Not adding another giant analytics dashboard for the sake of having one, but making the information already flowing through WooCommerce more useful.
+
+That's one of the problems we're working on with [SourceFlow](/project/sourceflow).

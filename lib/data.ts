@@ -14,22 +14,22 @@ export const appData = {
       linkedin: "https://linkedin.com/in/ali-amer22",
     },
   },
-  apps: [bookFlow, openFeed, sourceFlow],
+  apps: [sourceFlow, bookFlow, openFeed],
   categories: [
     {
       id: "all",
       name: "All",
-      icon: "🎯",
+      icon: "target",
     },
     {
       id: "plugin",
       name: "Plugins",
-      icon: "🔌",
+      icon: "plug",
     },
     {
       id: "saas",
       name: "SaaS Tools",
-      icon: "🚀",
+      icon: "rocket",
     },
   ],
 } satisfies AppData;

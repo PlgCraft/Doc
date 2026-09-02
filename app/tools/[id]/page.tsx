@@ -3,6 +3,7 @@ import { getToolById, toolsData } from "@/lib/tools";
 import { toolWidgets } from "@/lib/tools/widgets";
 import { productStatuses } from "@/lib/data.type";
 import { ArrowRight, HelpCircle } from "lucide-react";
+import { DynamicIcon } from "lucide-react/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -68,7 +69,12 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             </div>
 
             <div className="flex items-center gap-4 mb-4">
-              <div className="text-6xl">{tool.icon}</div>
+              <div
+                className="brutalist-border p-3 bg-white flex items-center justify-center shrink-0"
+                style={{ color: tool.accentColor }}
+              >
+                <DynamicIcon name={tool.icon} size={40} />
+              </div>
               <h1 className="text-4xl md:text-6xl font-black">{tool.name}</h1>
             </div>
             <p className="text-xl md:text-2xl text-gray-600 max-w-3xl">{tool.shortDescription}</p>

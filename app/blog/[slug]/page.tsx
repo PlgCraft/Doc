@@ -26,7 +26,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
     : "";
 
   const url = `${siteConfig.url}/blog/${params.slug}`;
-  const relatedProject = getAppById("bookflow");
+  const relatedProject = page.data.product ? getAppById(page.data.product) : undefined;
   const relatedPosts = blog.getPages().filter((entry) => entry.url !== page.url).slice(0, 2);
 
   return (
@@ -107,7 +107,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
           <div className="grid lg:grid-cols-12 gap-8">
             {/* Sticky Sidebar - TOC (brutalist card) */}
             <div className="lg:col-span-3">
-              <div className="sticky top-28">
+              <div className="sticky top-28 space-y-4">
                 <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_0px_#000]">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-2 h-2 bg-red-500" />
@@ -119,6 +119,30 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
                     className="space-y-3 [&_a]:font-bold [&_a:hover]:text-red-500 [&_a]:no-underline"
                   />
                 </div>
+
+                {relatedProject && (
+                  <Link
+                    href={`/project/${relatedProject.id}`}
+                    className="group block border-2 border-black p-6 shadow-[4px_4px_0px_0px_#000] hover:-translate-y-0.5 transition-transform"
+                    style={{ backgroundColor: `${relatedProject.accentColor}15` }}
+                  >
+                    <span
+                      className="inline-block text-white px-2 py-1 text-[10px] font-black tracking-wider mb-3"
+                      style={{ backgroundColor: relatedProject.accentColor }}
+                    >
+                      BUILT FOR THIS ARTICLE
+                    </span>
+                    <h3 className="font-black text-lg mb-2 group-hover:text-red-500 transition-colors">
+                      {relatedProject.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                      {relatedProject.shortDescription}
+                    </p>
+                    <span className="flex items-center gap-2 font-bold text-sm">
+                      VIEW PRODUCT <ArrowRight size={14} />
+                    </span>
+                  </Link>
+                )}
               </div>
             </div>
 
@@ -372,8 +396,6 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   const url = `${siteConfig.url}/blog/${params.slug}`;
-  const relatedProject = getAppById("bookflow");
-  const relatedPosts = blog.getPages().filter((entry) => entry.url !== page.url).slice(0, 2);
 
   return {
     title: {

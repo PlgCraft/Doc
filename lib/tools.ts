@@ -4,7 +4,7 @@ import { tools } from "./tools/index";
 export const toolsData = {
   tools,
   categories: [
-    { id: "all", name: "All Tools", icon: "🧰" },
+    { id: "all", name: "All Tools", icon: "wrench" },
   ] satisfies ToolCategoryMeta[],
 };
 

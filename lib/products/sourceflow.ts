@@ -22,7 +22,7 @@ When a SourceFlow link drives a sale that WooCommerce would have filed as "Direc
 All of it runs on WooCommerce's first-party order data. There is no external script slowing the storefront, no consent banner to manage, and no dependency on Google Analytics. It works correctly on stores using High-Performance Order Storage, captures attribution through both the classic checkout and the block checkout, and exports every report to CSV in one click. You control how long click data is kept, and you can wipe it whenever you want.`,
   category: "plugin",
   platform: ["woocommerce"],
-  statusId: productStatuses.development.id,
+  statusId: productStatuses.review.id,
   icon: "/products/sourceflow/logo.png",
   accentColor: "#C2410C",
   version: "0.1.0",

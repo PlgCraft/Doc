@@ -7,12 +7,13 @@ import type { ProductListCategory } from "@/lib/data.type";
 import { productStatuses } from "@/lib/data.type";
 import { useState } from "react";
 import { ArrowUpRight, Wrench } from "lucide-react";
+import { DynamicIcon } from "lucide-react/dynamic";
 import Link from "next/link";
 import { ProductIcon } from "@/components/ProductIcon";
 
 type SectionCategory = ProductListCategory | "tools";
 
-const TOOLS_TAB = { id: "tools" as const, name: "Free Tools", icon: "🧰" };
+const TOOLS_TAB = { id: "tools" as const, name: "Free Tools", icon: "wrench" as const };
 
 export const AppsSection = () => {
   const [activeCategory, setActiveCategory] = useState<SectionCategory>("all");
@@ -47,7 +48,7 @@ export const AppsSection = () => {
                 : "bg-white text-black brutalist-border hover:bg-gray-100"
                 }`}
             >
-              <span className="mr-2">{category.icon}</span>
+              <DynamicIcon name={category.icon} size={16} className="inline-block mr-2 -mt-0.5" />
               {category.name}
             </button>
           ))}
@@ -158,7 +159,7 @@ const ToolCard = ({ tool, index }: { tool: Tool; index: number }) => {
             className="p-6 border-b-4 border-black flex items-start justify-between"
             style={{ backgroundColor: `${tool.accentColor}20` }}
           >
-            <div className="text-5xl">{tool.icon}</div>
+            <DynamicIcon name={tool.icon} size={44} className="text-black" />
             <span className="bg-green-600 text-white px-2 py-1 text-xs font-bold">FREE</span>
           </div>
 

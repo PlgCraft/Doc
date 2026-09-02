@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { IconName } from "lucide-react/dynamic";
 import type { ProductStatusId } from "./data.type";
 
 export const toolCategories = ["utility", "converter", "generator", "calculator"] as const;
@@ -22,7 +23,7 @@ export type Tool = {
   fullDescription: string;
   category: ToolCategory;
   keywords: readonly string[];
-  icon: string;
+  icon: IconName;
   accentColor: string;
   statusId: ProductStatusId;
   releaseDate: `${number}-${number}-${number}`;
@@ -34,7 +35,7 @@ export type Tool = {
 export type ToolCategoryMeta = {
   id: ToolListCategory;
   name: string;
-  icon: string;
+  icon: IconName;
 };
 
 /**

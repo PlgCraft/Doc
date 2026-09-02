@@ -173,7 +173,7 @@ export type ProductListCategory = ProductCategory | "all";
 export type Category = {
   id: ProductListCategory;
   name: string;
-  icon: string;
+  icon: IconName;
 };
 
 export type AppData = {

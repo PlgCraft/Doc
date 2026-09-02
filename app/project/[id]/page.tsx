@@ -2,10 +2,11 @@ import { Logo } from "@/components/Logo";
 import { ProductIcon } from "@/components/ProductIcon";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { getAppById, appData } from "@/lib/data";
+import { blog } from "@/lib/source";
 import { Testimonial } from "@/lib/data.type";
 import { Badge } from "@/lib/platformBadges";
 import { DynamicIcon, IconName } from 'lucide-react/dynamic';
-import { ArrowRight, Calendar, Quote, Tag } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, Calendar, Quote, Tag } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -25,6 +26,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   if (!app) {
     notFound();
   }
+
+  const relatedPosts = blog.getPages().filter((post) => post.data.product === app.id);
 
   return (
     <main className="min-h-screen bg-white">
@@ -172,17 +175,84 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         </section>
       )}
 
-      <section className="py-20" style={{ backgroundColor: app.accentColor }}>
+      {relatedPosts.length > 0 && (
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+              <span className="inline-block bg-red-500 text-white px-4 py-2 text-sm font-bold mb-4">
+                FROM THE BLOG
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black">
+                WRITING ABOUT <span className="text-stroke text-transparent">{app.name.toUpperCase()}</span>
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedPosts.map((post, index) => {
+                const formattedDate = new Date(post.data.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                });
+
+                return (
+                  <Link
+                    key={post.url}
+                    href={post.url}
+                    className="reveal-up group block bg-white brutalist-border brutalist-shadow brutalist-hover"
+                    style={{ ["--delay" as never]: `${index * 90}ms` } as CSSProperties}
+                  >
+                    <div
+                      className="border-b-4 border-black p-5 flex items-center justify-between gap-3"
+                      style={{ backgroundColor: `${app.accentColor}20` }}
+                    >
+                      <div className="flex gap-2 flex-wrap">
+                        {post.data.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
+                            style={{ backgroundColor: app.accentColor }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <BookOpen size={20} className="text-black shrink-0" />
+                    </div>
+
+                    <div className="p-6">
+                      <div className="flex items-center gap-1 text-xs font-mono-brutal text-gray-500 mb-3 uppercase tracking-wider">
+                        <Calendar size={12} /> {formattedDate}
+                      </div>
+
+                      <h3 className="font-black text-xl mb-3 leading-tight group-hover:text-red-500 transition-colors">
+                        {post.data.title}
+                      </h3>
+
+                      <p className="text-gray-600 text-sm mb-6 line-clamp-3">{post.data.description}</p>
+
+                      <span className="flex items-center gap-2 font-bold text-sm group-hover:gap-4 transition-all">
+                        READ ARTICLE <ArrowUpRight size={16} />
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="py-15" style={{ backgroundColor: app.accentColor }}>
         <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
-          <div className="reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+          <div className="reveal-up flex flex-col justify-center items-center gap-3" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
             <ProductIcon
               icon={app.icon}
               name={app.name}
               textSizeClass="text-8xl"
               pixelSize={200}
-              className="mb-6 mx-auto"
             />
-            <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
+            <h2 className="text-4xl md:text-6xl font-black text-white">
               READY TO TRY {app.name.toUpperCase()}?
             </h2>
             <div className="flex flex-wrap justify-center gap-4">

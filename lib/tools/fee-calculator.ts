@@ -23,7 +23,7 @@ This calculator plugs in your platform, plan, and processor, and gives you an ef
     "woocommerce payments fees",
     "net payout calculator",
   ],
-  icon: "💳",
+  icon: "credit-card",
   accentColor: "#16A34A",
   statusId: "live",
   releaseDate: "2026-08-18",

@@ -30,7 +30,8 @@ export const blogPosts = defineCollections({
     date: z.string().or(z.date()),
     tags: z.array(z.string()),
     category: z.string(),
-    featured: z.boolean().default(false)
+    featured: z.boolean().default(false),
+    product: z.string().optional()
   }),
 });
 
