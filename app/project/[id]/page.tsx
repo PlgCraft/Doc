@@ -1,22 +1,25 @@
-import { Logo } from "@/components/Logo";
 import { ProductIcon } from "@/components/ProductIcon";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { getAppById, appData } from "@/lib/data";
 import { blog } from "@/lib/source";
-import { Testimonial } from "@/lib/data.type";
-import { Badge } from "@/lib/platformBadges";
-import { DynamicIcon, IconName } from 'lucide-react/dynamic';
-import { ArrowRight, ArrowUpRight, BookOpen, Calendar, Quote, Tag } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Calendar, Tag } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { buildProductJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
-import type { CSSProperties } from "react";
 import { FeedbackDrawer } from "@/components/feedback/FeedbackDrawer";
 import { HowItWorks } from "@/components/product/HowItWorks";
 import { KeyConcepts } from "@/components/product/KeyConcepts";
+import { StoreBadge } from "@/components/product/StoreBadge";
+import { FeatureCard } from "@/components/product/FeatureCard";
+import { TestimonialCard } from "@/components/product/TestimonialCard";
+import { Reveal } from "@/components/Reveal";
+import { SectionHeading } from "@/components/SectionHeading";
+import { BlogPostCard } from "@/components/BlogPostCard";
+import { MoreLinksSection } from "@/components/MoreLinksSection";
+import { CrossLinkCard } from "@/components/CrossLinkCard";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const dynamicParams = false;
 
@@ -54,7 +57,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col md:flex-row gap-12 items-center">
-            <div className="reveal-up md:w-2/5 md:shrink-0" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+            <Reveal className="md:w-2/5 md:shrink-0">
               <div className="flex flex-wrap gap-2 mb-4">
                 {app.platform.map((p) => (
                   <span
@@ -74,15 +77,15 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                   <StoreBadge key={badget.text} badge={badget} />
                 ))}
               </div>
-            </div>
+            </Reveal>
 
-            <div className="reveal-up w-full md:flex-1 min-w-0" style={{ ["--delay" as never]: "180ms" } as CSSProperties}>
+            <Reveal delay={180} className="w-full md:flex-1 min-w-0">
               <ScreenshotGallery
                 screenshots={app.screenshots}
                 appName={app.name}
                 videoUrl={app.videoDemo}
               />
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -108,14 +111,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid md:grid-cols-3 gap-12">
-            <div className="md:col-span-2 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+            <Reveal className="md:col-span-2">
               <h2 className="text-3xl md:text-4xl font-black mb-6">
                 ABOUT THIS <span className="text-stroke text-transparent">APP</span>
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed">{app.fullDescription}</p>
-            </div>
+            </Reveal>
 
-            <div className="reveal-up" style={{ ["--delay" as never]: "120ms" } as CSSProperties}>
+            <Reveal delay={120}>
               <div className="bg-gray-100 brutalist-border p-6">
                 <h3 className="font-black text-xl mb-4">TECH STACK</h3>
                 <div className="flex flex-wrap gap-2">
@@ -126,21 +129,21 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                   ))}
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
-            <span className="inline-block bg-red-500 text-white px-4 py-2 text-sm font-bold mb-4">
-              FEATURES
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black">
-              WHAT{"'"}S <span className="text-stroke text-transparent">INSIDE</span>
-            </h2>
-          </div>
+          <SectionHeading
+            label="FEATURES"
+            title={
+              <>
+                WHAT{"'"}S <span className="text-stroke text-transparent">INSIDE</span>
+              </>
+            }
+          />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {app.features.map((feature, index) => (
@@ -157,14 +160,15 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       {app.testimonials && app.testimonials.length > 0 && (
         <section className="py-16 bg-black text-white">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
-              <span className="inline-block bg-white text-black px-4 py-2 text-sm font-bold mb-4">
-                REVIEWS
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black">
-                WHAT USERS <span className="text-stroke-white text-transparent">SAY</span>
-              </h2>
-            </div>
+            <SectionHeading
+              label="REVIEWS"
+              labelClassName="bg-white text-black"
+              title={
+                <>
+                  WHAT USERS <span className="text-stroke-white text-transparent">SAY</span>
+                </>
+              }
+            />
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {app.testimonials.map((testimonial, index) => (
@@ -178,66 +182,30 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       {relatedPosts.length > 0 && (
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <div className="text-center mb-12 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
-              <span className="inline-block bg-red-500 text-white px-4 py-2 text-sm font-bold mb-4">
-                FROM THE BLOG
-              </span>
-              <h2 className="text-3xl md:text-5xl font-black">
-                WRITING ABOUT <span className="text-stroke text-transparent">{app.name.toUpperCase()}</span>
-              </h2>
-            </div>
+            <SectionHeading
+              label="FROM THE BLOG"
+              title={
+                <>
+                  WRITING ABOUT{" "}
+                  <span className="text-stroke text-transparent">{app.name.toUpperCase()}</span>
+                </>
+              }
+            />
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {relatedPosts.map((post, index) => {
-                const formattedDate = new Date(post.data.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                });
-
-                return (
-                  <Link
-                    key={post.url}
-                    href={post.url}
-                    className="reveal-up group block bg-white brutalist-border brutalist-shadow brutalist-hover"
-                    style={{ ["--delay" as never]: `${index * 90}ms` } as CSSProperties}
-                  >
-                    <div
-                      className="border-b-4 border-black p-5 flex items-center justify-between gap-3"
-                      style={{ backgroundColor: `${app.accentColor}20` }}
-                    >
-                      <div className="flex gap-2 flex-wrap">
-                        {post.data.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
-                            style={{ backgroundColor: app.accentColor }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <BookOpen size={20} className="text-black shrink-0" />
-                    </div>
-
-                    <div className="p-6">
-                      <div className="flex items-center gap-1 text-xs font-mono-brutal text-gray-500 mb-3 uppercase tracking-wider">
-                        <Calendar size={12} /> {formattedDate}
-                      </div>
-
-                      <h3 className="font-black text-xl mb-3 leading-tight group-hover:text-red-500 transition-colors">
-                        {post.data.title}
-                      </h3>
-
-                      <p className="text-gray-600 text-sm mb-6 line-clamp-3">{post.data.description}</p>
-
+              {relatedPosts.map((post, index) => (
+                <Reveal key={post.url} delay={index * 90}>
+                  <BlogPostCard
+                    post={{ ...post.data, url: post.url }}
+                    accentColor={app.accentColor}
+                    footer={
                       <span className="flex items-center gap-2 font-bold text-sm group-hover:gap-4 transition-all">
                         READ ARTICLE <ArrowUpRight size={16} />
                       </span>
-                    </div>
-                  </Link>
-                );
-              })}
+                    }
+                  />
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
@@ -245,13 +213,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
       <section className="py-15" style={{ backgroundColor: app.accentColor }}>
         <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
-          <div className="reveal-up flex flex-col justify-center items-center gap-3" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
-            <ProductIcon
-              icon={app.icon}
-              name={app.name}
-              textSizeClass="text-8xl"
-              pixelSize={200}
-            />
+          <Reveal className="flex flex-col justify-center items-center gap-3">
+            <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-8xl" pixelSize={200} />
             <h2 className="text-4xl md:text-6xl font-black text-white">
               READY TO TRY {app.name.toUpperCase()}?
             </h2>
@@ -260,72 +223,41 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                 <StoreBadge key={badget.text} badge={badget} />
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 pb-8">
-        <div className="border-2 border-black bg-gray-50 p-6 md:p-8 shadow-[4px_4px_0px_0px_#000]">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-4">
-                MORE PROJECTS
-              </span>
-              <h2 className="text-2xl md:text-4xl font-black">
-                See more of the <span className="text-stroke text-transparent">studio</span>
-              </h2>
-            </div>
-            <p className="text-gray-600 max-w-xl">
-              Explore the rest of the products, then compare how each one solves a different workflow with the same practical approach.
-            </p>
-          </div>
+      <MoreLinksSection
+        className="pb-8"
+        badge="MORE PROJECTS"
+        title={
+          <>
+            See more of the <span className="text-stroke text-transparent">studio</span>
+          </>
+        }
+        description="Explore the rest of the products, then compare how each one solves a different workflow with the same practical approach."
+      >
+        <CrossLinkCard
+          href="/#projects"
+          badge="ALL PROJECTS"
+          badgeClassName="bg-red-500 text-white"
+          title="Browse the full product list"
+          description="Jump back to the main projects section to compare plugins, integrations, and tools."
+        />
+        <CrossLinkCard
+          href="/blog"
+          badge="BLOG"
+          badgeClassName="bg-yellow-400 text-black"
+          title="Read the reasoning behind the builds"
+          description="Go deeper on the engineering tradeoffs, workflows, and product ideas that shape these products."
+        />
+      </MoreLinksSection>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <Link
-              href="/#projects"
-              className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
-            >
-              <span className="inline-block bg-red-500 text-white px-2 py-1 text-xs font-black tracking-wider mb-3">
-                ALL PROJECTS
-              </span>
-              <h3 className="font-black text-xl mb-2">Browse the full product list</h3>
-              <p className="text-gray-600 text-sm line-clamp-3">
-                Jump back to the main projects section to compare plugins, integrations, and tools.
-              </p>
-            </Link>
-
-            <Link
-              href="/blog"
-              className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
-            >
-              <span className="inline-block bg-yellow-400 text-black px-2 py-1 text-xs font-black tracking-wider mb-3">
-                BLOG
-              </span>
-              <h3 className="font-black text-xl mb-2">Read the reasoning behind the builds</h3>
-              <p className="text-gray-600 text-sm line-clamp-3">
-                Go deeper on the engineering tradeoffs, workflows, and product ideas that shape these products.
-              </p>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <footer className="bg-white border-t-4 border-black py-8">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <Logo />
-            <div className="text-gray-600 font-mono text-sm">
-              © {new Date().getFullYear()} PlgCraft. All rights reserved.
-            </div>
-            <Link
-              href="/#projects"
-              className="flex items-center gap-2 font-bold hover:text-red-500 transition-colors"
-            >
-              VIEW ALL PROJECTS <ArrowRight size={20} />
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter
+        linkHref="/#projects"
+        linkLabel="VIEW ALL PROJECTS"
+        linkIcon={<ArrowRight size={20} />}
+      />
       <FeedbackDrawer productId={app.id} productName={app.name} accentColor={app.accentColor} />
     </main>
   );
@@ -379,74 +311,3 @@ export async function generateMetadata(props: {
     },
   };
 }
-
-const StoreBadge = ({ badge }: { badge: Badge }) => {
-  const commonClasses = `${badge.bg} text-white px-6 py-4 flex items-center gap-4 brutalist-hover`;
-  const content = (
-    <>
-      {badge.icon}
-      <div className="text-left">
-        <div className="text-xs uppercase">{badge.text}</div>
-        <div className="font-bold text-lg">{badge.store}</div>
-      </div>
-    </>
-  );
-
-  return badge.href ? (
-    <a
-      href={badge.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={commonClasses}
-    >
-      {content}
-    </a>
-  ) : (
-    <div aria-disabled="true" className={`${commonClasses} opacity-50 cursor-not-allowed select-none`}>
-      {content}
-    </div>
-  );
-};
-
-const FeatureCard = ({
-  feature,
-  index,
-}: {
-  feature: { icon: IconName; title: string; description: string };
-  index: number;
-}) => {
-  return (
-    <div
-      className="reveal-up bg-white brutalist-border brutalist-shadow-sm p-6 brutalist-hover"
-      style={{ ["--delay" as never]: `${index * 90}ms` } as CSSProperties}
-    >
-      <div className="flex items-start gap-2">
-        <DynamicIcon name={feature.icon} className="text-4xl mb-4" />
-        <h3 className="font-black text-xl mb-2">{feature.title}</h3>
-      </div>
-      <p className="text-gray-600">{feature.description}</p>
-    </div>
-  );
-};
-
-const TestimonialCard = ({
-  testimonial,
-  index,
-}: {
-  testimonial: Testimonial;
-  index: number;
-}) => {
-  return (
-    <div
-      className="reveal-up bg-gray-100 brutalist-border p-6 relative"
-      style={{ ["--delay" as never]: `${index * 120}ms` } as CSSProperties}
-    >
-      <Quote className="absolute top-4 right-4 text-gray-300" size={40} />
-      <p className="text-lg mb-4 italic">{testimonial.message}</p>
-      <div>
-        <p className="font-bold">{testimonial.name}</p>
-        <p className="text-sm text-gray-600">{testimonial.role}</p>
-      </div>
-    </div>
-  );
-};

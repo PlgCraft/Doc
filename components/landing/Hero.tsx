@@ -1,9 +1,9 @@
 import { ArrowRight, ChevronDown } from "lucide-react";
-import type { CSSProperties } from "react";
 import { getFeaturedApps, appData } from "@/lib/data";
-import { productStatuses } from "@/lib/data.type";
 import { HeroContainer } from "./AnimatedContainer";
 import { ProductIcon } from "@/components/ProductIcon";
+import { StatusBadge } from "@/components/StatusBadge";
+import { Reveal } from "@/components/Reveal";
 
 export default function Hero() {
   return (
@@ -11,7 +11,7 @@ export default function Hero() {
       <HeroContainer>
         <div className="grid md:grid-cols-2 gap-12 items-center min-h-[70vh]">
           <div>
-            <div className="reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+            <Reveal>
               <span className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-6">
                 {appData.info.title}
               </span>
@@ -21,12 +21,9 @@ export default function Hero() {
               <p className="text-xl md:text-2xl text-gray-600 max-w-md mb-8 font-medium">
                 {appData.info.sub}
               </p>
-            </div>
+            </Reveal>
 
-            <div
-              className="reveal-up flex flex-wrap gap-4"
-              style={{ ["--delay" as never]: "180ms" } as CSSProperties}
-            >
+            <Reveal delay={180} className="flex flex-wrap gap-4">
               <a
                 href="#projects"
                 className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 font-bold text-lg brutalist-shadow brutalist-hover"
@@ -39,64 +36,55 @@ export default function Hero() {
               >
                 CONTACT ME
               </a>
-            </div>
+            </Reveal>
           </div>
 
-          <div
-            className="reveal-up relative"
-            style={{ ["--delay" as never]: "120ms" } as CSSProperties}
-          >
+          <Reveal delay={120} className="relative">
             <div className="relative">
               {getFeaturedApps()
                 .slice(0, 3)
-                .map((app, index) => {
-                  const status = productStatuses[app.statusId];
-                  return (
-                    <div
-                      key={app.id}
-                      className={`${index === 0
-                        ? "relative z-30"
-                        : index === 1
-                          ? "absolute top-4 left-4 z-20"
-                          : "absolute top-8 left-8 z-10"
-                        }`}
-                      style={{
-                        transform: `rotate(${index * 3 - 3}deg)`,
-                        animationDelay: `${220 + index * 120}ms`,
-                      }}
+                .map((app, index) => (
+                  <div
+                    key={app.id}
+                    className={`${index === 0
+                      ? "relative z-30"
+                      : index === 1
+                        ? "absolute top-4 left-4 z-20"
+                        : "absolute top-8 left-8 z-10"
+                      }`}
+                    style={{
+                      transform: `rotate(${index * 3 - 3}deg)`,
+                      animationDelay: `${220 + index * 120}ms`,
+                    }}
+                  >
+                    <Reveal
+                      delay={220 + index * 120}
+                      className="bg-white brutalist-border brutalist-shadow p-6 w-80"
+                      style={{ borderColor: app.accentColor }}
                     >
-                      <div
-                        className="reveal-up bg-white brutalist-border brutalist-shadow p-6 w-80"
-                        style={{
-                          borderColor: app.accentColor,
-                          ["--delay" as never]: `${220 + index * 120}ms`,
-                        } as CSSProperties}
-                      >
-                        <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-5xl" pixelSize={80} className="mb-4" />
-                        <h3 className="font-black text-xl mb-2">{app.name}</h3>
-                        <p className="text-gray-600 text-sm mb-4">{app.shortDescription}</p>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium border ${status.color.bg} ${status.color.text} ${status.color.border}`}
-                          >
-                            <status.icon size={14} />
-                            {status.label}
-                          </span>
-                        </div>
+                      <ProductIcon icon={app.icon} name={app.name} textSizeClass="text-5xl" pixelSize={80} className="mb-4" />
+                      <h3 className="font-black text-xl mb-2">{app.name}</h3>
+                      <p className="text-gray-600 text-sm mb-4">{app.shortDescription}</p>
+                      <div className="flex items-center gap-2">
+                        <StatusBadge statusId={app.statusId} size="xs" />
                       </div>
-                    </div>
-                  );
-                })}
+                    </Reveal>
+                  </div>
+                ))}
             </div>
-          </div>
+          </Reveal>
         </div>
 
-        <div className="reveal-fade absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center" style={{ ["--delay" as never]: "900ms" } as CSSProperties}>
+        <Reveal
+          delay={900}
+          variant="fade"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center"
+        >
           <span className="text-sm font-bold mb-2">SCROLL</span>
           <div className="float-y">
             <ChevronDown size={24} />
           </div>
-        </div>
+        </Reveal>
       </HeroContainer>
     </section>
   );

@@ -1,9 +1,9 @@
-import type { CSSProperties } from "react";
 import { blog } from "@/lib/source";
 import { ACCENTCOLOR } from "@/lib/utils";
 import { ArrowRight, ArrowUpRight, BookOpen, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { BlogCardContainer } from "./AnimatedContainer";
+import { Reveal } from "@/components/Reveal";
 
 export const BlogsSection = () => {
   const blogs = blog.getPages()?.sort(
@@ -17,7 +17,7 @@ export const BlogsSection = () => {
       <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-red-500 -rotate-12 hidden md:block" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16 reveal-up" style={{ ["--delay" as never]: "0ms" } as CSSProperties}>
+        <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
           <div>
             <span className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-6">
               INSIGHTS
@@ -30,7 +30,7 @@ export const BlogsSection = () => {
           <p className="text-lg text-gray-600 max-w-md font-medium">
             Stay up to date with new products, feature releases, technical tutorials, integration guides, and engineering articles from PlgCraft. Learn how our software is built, what&apos;s shipping next, and the ideas behind every product.
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8">
           {blogs.map((blog, i) => (
@@ -48,14 +48,14 @@ export const BlogsSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 md:mt-16 flex justify-center reveal-up" style={{ ["--delay" as never]: "320ms" } as CSSProperties}>
+        <Reveal delay={320} className="mt-12 md:mt-16 flex justify-center">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 font-bold text-lg brutalist-shadow brutalist-hover"
           >
             READ ALL POSTS <ArrowRight size={20} />
           </Link>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

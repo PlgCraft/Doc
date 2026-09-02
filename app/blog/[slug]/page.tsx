@@ -9,6 +9,9 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { buildBlogPostingJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { MoreLinksSection } from "@/components/MoreLinksSection";
+import { CrossLinkCard } from "@/components/CrossLinkCard";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default async function Page(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -301,82 +304,52 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
         </div>
       </article>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 mt-8">
-        <div className="border-2 border-black bg-gray-50 p-6 md:p-8 shadow-[4px_4px_0px_0px_#000]">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-4">
-                RELATED LINKS
-              </span>
-              <h2 className="text-2xl md:text-4xl font-black">
-                Keep exploring this <span className="text-stroke text-transparent">topic</span>
-              </h2>
-            </div>
-            <p className="text-gray-600 max-w-xl">
-              Read the product behind the writing, or jump to another post if you want more context on how I build and ship software.
-            </p>
-          </div>
+      <MoreLinksSection
+        className="mt-8"
+        gridClassName="md:grid-cols-3"
+        badge="RELATED LINKS"
+        title={
+          <>
+            Keep exploring this <span className="text-stroke text-transparent">topic</span>
+          </>
+        }
+        description="Read the product behind the writing, or jump to another post if you want more context on how I build and ship software."
+      >
+        {relatedProject && (
+          <CrossLinkCard
+            href={`/project/${relatedProject.id}`}
+            badge="FEATURED PRODUCT"
+            badgeClassName="bg-red-500 text-white"
+            title={relatedProject.name}
+            description={relatedProject.shortDescription}
+          />
+        )}
 
-          <div className="grid md:grid-cols-3 gap-4">
-            {relatedProject && (
-              <Link
-                href={`/project/${relatedProject.id}`}
-                className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
-              >
-                <span className="inline-block bg-red-500 text-white px-2 py-1 text-xs font-black tracking-wider mb-3">
-                  FEATURED PRODUCT
-                </span>
-                <h3 className="font-black text-xl mb-2">{relatedProject.name}</h3>
-                <p className="text-gray-600 text-sm line-clamp-3">{relatedProject.shortDescription}</p>
-              </Link>
-            )}
+        {relatedPosts.map((post) => (
+          <CrossLinkCard
+            key={post.url}
+            href={post.url}
+            badge="MORE READING"
+            title={post.data.title}
+            description={post.data.description ?? ""}
+          />
+        ))}
 
-            {relatedPosts.map((post) => (
-              <Link
-                key={post.url}
-                href={post.url}
-                className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
-              >
-                <span className="inline-block bg-black text-white px-2 py-1 text-xs font-black tracking-wider mb-3">
-                  MORE READING
-                </span>
-                <h3 className="font-black text-xl mb-2">{post.data.title}</h3>
-                <p className="text-gray-600 text-sm line-clamp-3">{post.data.description}</p>
-              </Link>
-            ))}
+        <CrossLinkCard
+          href="/blog"
+          badge="ALL POSTS"
+          badgeClassName="bg-yellow-400 text-black"
+          title="Browse the blog archive"
+          description="Explore all articles, releases, and longer notes about plugins, integrations, and building small software."
+        />
+      </MoreLinksSection>
 
-            <Link
-              href="/blog"
-              className="bg-white brutalist-border p-5 hover:-translate-y-1 transition-transform"
-            >
-              <span className="inline-block bg-yellow-400 text-black px-2 py-1 text-xs font-black tracking-wider mb-3">
-                ALL POSTS
-              </span>
-              <h3 className="font-black text-xl mb-2">Browse the blog archive</h3>
-              <p className="text-gray-600 text-sm line-clamp-3">
-                Explore all articles, releases, and longer notes about plugins, integrations, and building small software.
-              </p>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer – brutalist */}
-      <footer className="bg-white border-t-4 border-black py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="font-black text-xl">
-              PlgCraft<span className="text-red-500">.</span>
-            </div>
-            <div className="text-gray-600 font-mono text-sm">
-              © {new Date().getFullYear()} PlgCraft. All rights reserved.
-            </div>
-            <Link href="/blog" className="text-sm font-black hover:text-red-500 transition-colors">
-              ← BACK TO BLOG
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter
+        className="mt-16"
+        containerClassName="max-w-7xl mx-auto px-6 md:px-12 lg:px-24"
+        linkHref="/blog"
+        linkLabel="← BACK TO BLOG"
+      />
     </div>
   );
 }
