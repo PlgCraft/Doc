@@ -31,7 +31,8 @@ export const blogPosts = defineCollections({
     tags: z.array(z.string()),
     category: z.string(),
     featured: z.boolean().default(false),
-    product: z.string().optional()
+    product: z.string().optional(),
+    more: z.string().optional(),
   }),
 });
 

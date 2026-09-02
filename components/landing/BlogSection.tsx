@@ -66,6 +66,7 @@ type Blog = {
   author: string;
   date: string | Date;
   description?: string | undefined;
+  more?: string,
   accentColor: string;
   tags: string[];
   category: string;
@@ -134,10 +135,17 @@ const BlogCard = ({
           </h3>
 
           <p
-            className={`text-gray-600 mb-6 ${featured ? "text-base md:text-xl line-clamp-5" : "text-sm line-clamp-3"}`}
+            className={`text-gray-600 ${featured ? "text-base md:text-xl line-clamp-5 my-3" : "text-sm line-clamp-3 mb-6"}`}
           >
             {blog.description}
           </p>
+          {blog.more &&
+            <p
+              className={`text-gray-600 mb-6 border-t border-gray-200 text-base md:text-xl line-clamp-9`}
+            >
+              {blog.more}
+            </p>
+          }
 
           <div className="mt-auto pt-4 border-t-2 border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
