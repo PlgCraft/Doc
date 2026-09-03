@@ -282,7 +282,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
                           href={post.url}
                           className="border-2 border-black bg-white p-4 hover:shadow-[4px_4px_0px_0px_#000] transition-all hover:-translate-y-0.5"
                         >
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 flex-wrap">
                             {post.data.tags.map(tag =>
                               <p key={tag} className="font-mono text-xs uppercase tracking-wider text-gray-500 mb-2">
                                 {tag},

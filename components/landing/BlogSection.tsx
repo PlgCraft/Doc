@@ -93,25 +93,25 @@ const BlogCard = ({
     <BlogCardContainer index={index} featured={featured}>
       <Link
         href={blog.url}
-        className="group block bg-white brutalist-border brutalist-shadow brutalist-hover h-full"
+        className="group flex flex-col bg-white brutalist-border brutalist-shadow brutalist-hover h-full"
       >
         <div
-          className="border-b-4 border-black p-6 flex items-center justify-between"
+          className="border-b-4 border-black p-6 flex items-center justify-between gap-3"
           style={{ backgroundColor: `${blog.accentColor}20` }}
         >
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap min-w-0">
             {blog.tags.map(tag => <span
               key={tag}
-              className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
+              className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider break-words"
               style={{ backgroundColor: blog.accentColor }}
             >
               {tag}
             </span>)}
           </div>
-          <BookOpen size={featured ? 28 : 22} className="text-black" />
+          <BookOpen size={featured ? 28 : 22} className="text-black shrink-0" />
         </div>
 
-        <div className={`p-6 ${featured ? "md:p-10" : ""} flex flex-col h-[calc(100%-72px)]`}>
+        <div className={`p-6 ${featured ? "md:p-10" : ""} flex flex-col flex-1`}>
           <div className="flex items-center gap-3 text-xs font-mono-brutal text-gray-500 mb-4 uppercase tracking-wider">
             <span className="flex items-center gap-1">
               <Calendar size={12} /> {formattedDate}

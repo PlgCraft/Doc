@@ -38,17 +38,17 @@ export const BlogPostCard = ({
   return (
     <Link
       href={post.url}
-      className={`group block bg-white brutalist-border brutalist-shadow brutalist-hover ${fillHeight ? "h-full" : ""}`}
+      className={`group flex flex-col bg-white brutalist-border brutalist-shadow brutalist-hover ${fillHeight ? "h-full" : ""}`}
     >
       <div
         className="border-b-4 border-black p-5 flex items-center justify-between gap-3"
         style={{ backgroundColor: `${accentColor}20` }}
       >
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap min-w-0">
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider"
+              className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider break-words"
               style={{ backgroundColor: accentColor }}
             >
               {tag}
@@ -58,7 +58,7 @@ export const BlogPostCard = ({
         <BookOpen size={20} className="text-black shrink-0" />
       </div>
 
-      <div className={`p-6 flex flex-col ${fillHeight ? "h-[calc(100%-64px)]" : ""}`}>
+      <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center gap-3 text-xs font-mono-brutal text-gray-500 mb-3 uppercase tracking-wider flex-wrap">
           <span className="flex items-center gap-1">
             <Calendar size={12} /> {formattedDate}
