@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
-import { buildProductJsonLd, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { buildProductJsonLd, buildOffersFromPricing, buildBreadcrumbJsonLd } from "@/lib/seo";
 import { FeedbackDrawer } from "@/components/feedback/FeedbackDrawer";
 import { HowItWorks } from "@/components/product/HowItWorks";
 import { KeyConcepts } from "@/components/product/KeyConcepts";
@@ -31,6 +31,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   }
 
   const relatedPosts = blog.getPages().filter((post) => post.data.product === app.id);
+  const projectUrl = `${siteConfig.url}/project/${app.id}`;
 
   return (
     <main className="min-h-screen bg-white">
@@ -39,15 +40,16 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           buildProductJsonLd({
             name: app.name,
             description: app.shortDescription,
-            url: `${siteConfig.url}/project/${app.id}`,
+            url: projectUrl,
             image: app.screenshots[0] ? `${siteConfig.url}${app.screenshots[0]}` : undefined,
             category: app.category,
             brand: siteConfig.name,
+            offers: buildOffersFromPricing(app.pricing, projectUrl),
           }),
           buildBreadcrumbJsonLd([
             { name: "Home", url: siteConfig.url },
             { name: "Projects", url: `${siteConfig.url}/#projects` },
-            { name: app.name, url: `${siteConfig.url}/project/${app.id}` },
+            { name: app.name, url: projectUrl },
           ]),
         ]}
       />

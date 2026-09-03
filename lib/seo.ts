@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/site";
+import type { ProductPricing } from "@/lib/data.type";
 
 export function buildOrganizationJsonLd(options?: {
   description?: string;
@@ -77,6 +78,22 @@ export function buildBlogPostingJsonLd(options: {
     },
     image: options.image ? [options.image] : undefined,
     keywords: options.keywords?.length ? options.keywords.join(", ") : undefined,
+  };
+}
+
+// Google's Product structured data requires at least one of offers/review/aggregateRating,
+// so every product page must always pass an `offers` block — including "coming soon" apps,
+// which are marked PreOrder rather than omitted, since Product schema without offers throws
+// the "Either offers, review, or aggregateRating should be specified" warning in Search Console.
+export function buildOffersFromPricing(pricing: ProductPricing, url: string) {
+  return {
+    price: pricing.kind === "paid" ? String(pricing.amount ?? 0) : "0",
+    priceCurrency: pricing.currency ?? "USD",
+    availability:
+      pricing.kind === "coming-soon"
+        ? "https://schema.org/PreOrder"
+        : "https://schema.org/InStock",
+    url,
   };
 }
 
