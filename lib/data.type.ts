@@ -3,7 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import type { IconName } from "lucide-react/dynamic";
 import type { Badge } from "./platformBadges";
 
-export const platforms = ["woocommerce", "shopify", "quickbooks", "xero", "airtable", "web"] as const;
+export const platforms = ["woocommerce", "shopify", "quickbooks", "xero", "airtable", "web", "github"] as const;
 export type Platform = (typeof platforms)[number];
 
 export const productCategories = ["plugin", "saas"] as const;

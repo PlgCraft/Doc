@@ -1,0 +1,125 @@
+---
+title: "How to Build a WooCommerce Extension with woocraft, Start to Finish"
+description: "A practical walkthrough of woocraft: scaffolding a real extension, the commands you'll actually run every day, what woocraft.json controls, and how to ship a Marketplace-ready zip."
+author: "Ali Amer"
+tags: ["woocraft", "WooCommerce", "WordPress", "developer tools"]
+category: General
+date: "2026-09-06"
+featured: false
+product: "woocraft"
+---
+
+Let's build something. Not a hello world, an actual WooCommerce extension with a REST route, an admin screen, linting, static analysis, translations, and a zip you could submit to the Marketplace today.
+
+We'll call it Coupon Wizard. Here's the whole thing, start to finish.
+
+## Scaffold it
+
+Nothing to install first. Just run it.
+
+```bash
+npx woocraft new coupon-wizard
+```
+
+It'll ask a handful of questions: extension name, slug, description, PHP namespace, author, which PHP, WordPress and WooCommerce versions you're targeting, which PHPStan release to pin, and a local WordPress install to deploy into. That last one can be a plain path or, if you've got DevKinsta, pick a site from what's already on your machine.
+
+Answer them, or don't. Every question has a sensible default, so pressing enter through all of them gets you a working extension too:
+
+```bash
+npx woocraft new coupon-wizard -y
+```
+
+When it finishes, you have a real project: PSR-4 PHP with a Composer autoloader, a REST route already registered at `/coupon-wizard/v1/hello`, an admin screen built with React, Vite and Tailwind, and a plugin header with the fields WooCommerce and WordPress.org actually check. Dependencies are installed, the toolchain is warmed, and if you gave it a WordPress install, the plugin is already deployed and active.
+
+## What you actually got
+
+```
+coupon-wizard.php          Plugin header, constants, boot hook
+uninstall.php              Delete-time cleanup
+src/
+  Plugin.php                Composition root
+  Bootstrap/Lifecycle.php   Activation, deactivation, environment checks
+  Http/Routes/Hello.php     A starter REST route
+  Admin/                    The admin screen: PHP menu page + React UI
+package.json                Deps + the npm scripts you'll actually use
+woocraft.json                woocraft's own config, more on this below
+```
+
+That `woocraft.json` file is the one worth understanding before you do anything else, because it's how you'll talk to the tool from here on.
+
+## The loop you'll run all day
+
+Two commands cover almost everything while you're building.
+
+```bash
+npm run check
+```
+
+Runs PHP_CodeSniffer and PHPStan against a ruleset generated straight from your plugin header and `composer.json`. Not a config file you maintain by hand, one that's regenerated fresh from what's already true about your project every time you run it.
+
+```bash
+npm run deploy
+```
+
+Builds the admin UI, mirrors the compiled plugin (never the Vite source, never `node_modules`) into your WordPress install, activates it, and runs `wp plugin check` against it. Run it again after every change you want to see in the browser. First run asks where to deploy to, after that it remembers.
+
+That's the whole loop. Write code, `npm run deploy`, look at it, repeat.
+
+## woocraft.json, the file that actually matters
+
+Everything project-specific lives here, committed at your root:
+
+```json
+{
+  "description": "Stack coupons the smart way",
+  "requiresPHP": "7.4",
+  "requiresWP": "6.3",
+  "requiresWC": "8.5",
+  "phpstanVersion": "2.2.12",
+  "versions": {
+    "0.1.0": "Initial release"
+  },
+  "qit": {
+    "sut": "coupon-wizard",
+    "tests": [],
+    "args": []
+  }
+}
+```
+
+Change the description, or the PHP/WordPress/WooCommerce versions you require, and the next `deploy` or `build` writes it into the plugin header, `composer.json`, `package.json` and `readme.txt` for you. One edit instead of four.
+
+`versions` is the release log. The **last entry is the official version**, the one that lands in the plugin header, its version constant, and `readme.txt`'s stable tag. Add a new entry to cut a release:
+
+```json
+"versions": {
+  "0.1.0": "Initial release",
+  "0.2.0": "Add coupon stacking rules"
+}
+```
+
+Run `deploy` or `build` and that entry becomes a dated `changelog.txt` line and a `readme.txt` changelog entry too, automatically, on both files at once. Entries already there are never touched again, so if you've hand-edited an old one, it stays exactly as you left it.
+
+Get something wrong in this file, a typo'd key, a string where a list belongs, get it wrong in any way, and woocraft tells you exactly what's wrong and how to fix it before anything runs. No cryptic failure three steps later.
+
+## Shipping it
+
+When Coupon Wizard is actually ready:
+
+```bash
+npm run build
+```
+
+This runs everything `deploy` does, with no shortcuts this time, then packages an isolated copy: production Composer autoloader, no dev dependencies, no `.git`, no Vite source, no `composer.lock`, nothing that doesn't belong in a submission. Then it runs QIT, the same quality suite the WooCommerce Marketplace review itself runs: security, PHPStan, PHP compatibility, the WordPress.org plugin checker, an activation test.
+
+Before it actually runs any tests, it checks that Coupon Wizard is registered as a listing on your WooCommerce.com account, since QIT tests a real Marketplace listing, not just any zip. If it isn't registered yet, you get told exactly that, and exactly what to do about it, instead of a confusing failure from QIT itself partway through. If you just want that check on its own, without rebuilding, `npm run qit` runs it standalone and checks registration before it even bothers packaging.
+
+A clean `build` means the zip sitting in `dist/` is genuinely ready to submit. Not "probably fine", actually checked, against the same suite the reviewer runs.
+
+## The rest of it
+
+`npm run pot` regenerates translations. `npm run qit` runs the Marketplace tests on their own, against an existing zip, when you just want to re-check something. `npm run lint:fix` runs the ruleset through `phpcbf` and fixes what it can automatically.
+
+None of it needs a config file you wrote by hand, and none of it needs to be copied into your next extension. That's the part I built this to get rid of.
+
+The full command reference, every flag, every option, lives in the [GitHub repo](https://github.com/PlgCraft/woocraft). Everything here is free, open source, MIT licensed, and ready whenever your next extension is.

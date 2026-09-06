@@ -1,0 +1,72 @@
+---
+title: "Why I Built woocraft While Waiting for SourceFlow's Marketplace Review"
+description: "BookFlow was my first extension, and it never shipped. SourceFlow was the second, and it did. While I waited on its Marketplace review, I built the tool I wished I'd had for both."
+author: "Ali Amer"
+tags: ["woocraft", "WooCommerce", "developer tools", "open source"]
+category: General
+date: "2026-09-06"
+featured: false
+product: "woocraft"
+---
+
+BookFlow was my first WooCommerce extension.
+
+I built it, learned a lot building it, and never shipped it.
+
+SourceFlow was the second one, and I did ship that one. I submitted it to the WooCommerce Marketplace, and while it sat in review, I built woocraft.
+
+## The part nobody talks about
+
+When people talk about building a WooCommerce extension, they talk about the feature. The sync logic, the dashboard, the thing that actually solves the problem for the store owner.
+
+Nobody talks about the two or three days before that, where you're just getting the project into a state where you can start.
+
+A real extension needs a PSR-4 structure with a Composer autoloader, not a single 2,000-line plugin file. It needs a phpcs ruleset that actually checks for the things the Marketplace review checks for, security, database safety, deprecated APIs, not just formatting. It needs PHPStan pointed at WordPress and WooCommerce stubs, or every `add_action` and `WC()` call throws a false positive. It needs a `.pot` file kept current as you add strings. And at the end, it needs a zip with a production autoloader, no dev dependencies, no `.git`, nothing that doesn't belong in a submission.
+
+That's not one task. It's ten small ones, and every one of them is a place to get something subtly wrong.
+
+I built all of that by hand for BookFlow first. Then I built most of it again for SourceFlow, because BookFlow never got far enough to ship and SourceFlow needed its own version of the same setup anyway. Same phpcs rules, same PHPStan config, same packaging problem, worked out a second time instead of reused.
+
+## Waiting on a review
+
+SourceFlow shipped. I submitted it to the WooCommerce Marketplace and it went into review.
+
+The feedback that came back on the codebase itself was good. That mattered more to me than I expected it to, because it meant the PSR-4 structure, the linting, the static analysis, all the setup work I'd repeated by hand across two extensions, had actually paid off. It wasn't wasted effort.
+
+Review takes time, and for once I had some to spare. I could have started a third extension the same way I'd started the first two, by hand, copying config files and hoping I didn't miss one. Instead I built the tool that does that setup for me, once, so I'd never have to do it by hand a third time.
+
+That's woocraft.
+
+## There wasn't a tool for this
+
+I looked for something that already did it before writing a third copy of the same setup.
+
+Plenty of tools scaffold a WordPress plugin. Fewer are built specifically around WooCommerce and what its Marketplace actually expects. Almost none of them stay involved after the scaffold, they hand you a folder and disappear, so the linting, the translations, the packaging, and the Marketplace testing all end up hand-rolled per project anyway. The setup problem doesn't go away. It just moves earlier.
+
+I didn't want a scaffold. I wanted something that owned the whole lifecycle, from one command to a zip that's actually ready to submit, and stayed the same across every extension I build from here.
+
+## What woocraft actually does
+
+One command scaffolds a real extension: PSR-4 PHP, a Composer autoloader, a REST route, an admin screen built with React, Vite and Tailwind, a plugin header with the fields WooCommerce and WordPress.org check.
+
+From there, everything lives behind `npm run`. `lint` and `stan` run against a ruleset generated from your own plugin header and `composer.json`, so there's no config file to keep in sync by hand across projects anymore, it's generated fresh, every time, from the thing that's already true. `deploy` builds the admin UI and mirrors the plugin into a real local WordPress install. `build` does all of that, packages an isolated, Marketplace-ready zip, and runs QIT, the same quality suite the Marketplace review itself runs, checking first that the extension is actually registered so a build never gets wasted on a test that can't pass yet.
+
+One file, `woocraft.json`, holds the project's own settings: description, version requirements, the release log, QIT config. Change something there and the next deploy writes it into the plugin header, `composer.json`, `package.json`, and `readme.txt`, all at once.
+
+It's the tool I wish I'd had for BookFlow.
+
+## What it means for the next extension
+
+BookFlow still isn't shipped. When it is, it'll be the first extension I finish that was built with woocraft from the very first command, not retrofitted onto it afterward.
+
+Every extension after that starts from the same scaffold, runs the same checks, and ships the same way, because the setup step just isn't a step anymore. That's the actual win. Not that woocraft is clever. That it's boring, in the way a good build tool should be boring, so the only thing left to think about is the extension itself.
+
+## Free and open, on purpose
+
+woocraft is free, open source, and MIT licensed, on [GitHub](https://github.com/PlgCraft/woocraft).
+
+I built this because I had the time and the reason to, waiting on a review that ended up going well. Keeping it to myself wouldn't have made BookFlow or SourceFlow any better. It would have just meant every other WooCommerce developer hitting the same wall I hit twice, and building their own version of the same ten things.
+
+So it's a gift to whoever's about to build their first extension and doesn't want to learn all of this the hard way. And it's the tool I'm going to keep using myself, for BookFlow, and for whatever comes after it.
+
+**Scaffold it once, check it the same way every time, and ship a zip you can actually trust.**

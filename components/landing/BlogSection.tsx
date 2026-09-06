@@ -8,7 +8,7 @@ import { Reveal } from "@/components/Reveal";
 export const BlogsSection = () => {
   const blogs = blog.getPages()?.sort(
     (a, b) => Number(b.data.featured) - Number(a.data.featured)
-  );
+  ).slice(0, 6);
   if (!blogs || blogs.length === 0) return null;
 
   return (
@@ -102,7 +102,7 @@ const BlogCard = ({
           <div className="flex gap-2 flex-wrap min-w-0">
             {blog.tags.map(tag => <span
               key={tag}
-              className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider break-words"
+              className="inline-block text-white px-3 py-1 text-xs font-black tracking-wider wrap-break-words"
               style={{ backgroundColor: blog.accentColor }}
             >
               {tag}

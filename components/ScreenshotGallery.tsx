@@ -143,6 +143,7 @@ export const ScreenshotGallery = ({
               alt={`${appName} screenshot ${selectedIndex + 1}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
+              quality={95}
               className="object-cover"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -199,6 +200,7 @@ export const ScreenshotGallery = ({
                   priority={index === 0}
                   fill
                   sizes="96px"
+                  quality={95}
                   className="object-cover"
                 />
               )}

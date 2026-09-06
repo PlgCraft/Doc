@@ -5,6 +5,7 @@ import {
   SiQuickbooks,
   SiXero,
   SiAirtable,
+  SiGithub,
 } from "react-icons/si";
 import { Globe } from "lucide-react";
 import { Platform } from "./data.type";
@@ -57,5 +58,14 @@ export const platformBadges: Record<Platform, Badge> = {
     text: "VISIT",
     store: "Website",
     bg: "bg-[#059669]",
+  },
+  // Same story as `web` — a product's actual repo URL is product-specific,
+  // so build your own Badge with the real `href` (see products/woocraft.ts)
+  // instead of using this entry as-is.
+  github: {
+    icon: <SiGithub size={50} />,
+    text: "OPEN SOURCE ON",
+    store: "GitHub",
+    bg: "bg-[#181717]",
   },
 };

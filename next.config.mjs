@@ -9,6 +9,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const config = {
   reactStrictMode: true,
   poweredByHeader: false,
+  images: {
+    qualities: [75, 95],
+  },
   turbopack: {
     root: __dirname,
   },

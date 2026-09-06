@@ -1,5 +1,5 @@
 import type { AppData, ProductListCategory, Product } from "./data.type";
-import { bookFlow, openFeed, sourceFlow } from "./products";
+import { bookFlow, openFeed, sourceFlow, woocraft } from "./products";
 
 export const appData = {
   info: {
@@ -14,7 +14,7 @@ export const appData = {
       linkedin: "https://linkedin.com/in/ali-amer22",
     },
   },
-  apps: [sourceFlow, bookFlow, openFeed],
+  apps: [woocraft, sourceFlow, bookFlow, openFeed],
   categories: [
     {
       id: "all",

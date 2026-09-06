@@ -26,6 +26,7 @@ export function ProductIcon({
         alt={`${name} logo`}
         width={pixelSize}
         height={pixelSize}
+        quality={95}
         style={{ width: pixelSize, height: pixelSize }}
         className={cn("object-contain", className)}
       />

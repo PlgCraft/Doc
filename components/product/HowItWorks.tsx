@@ -37,6 +37,7 @@ const ImageFrame = ({
           width={image.width}
           height={image.height}
           sizes="(max-width: 768px) 90vw, 800px"
+          quality={95}
           className="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.03]"
         />
       </div>
@@ -82,6 +83,7 @@ const ImageLightbox = ({
         width={image.width}
         height={image.height}
         sizes="90vw"
+        quality={95}
         className="max-h-[90vh] max-w-[90vw] w-auto h-auto object-contain brutalist-border bg-white"
         onClick={(e) => e.stopPropagation()}
         priority
