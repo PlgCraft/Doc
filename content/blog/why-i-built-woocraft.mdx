@@ -1,6 +1,6 @@
 ---
-title: "Why I Built woocraft While Waiting for SourceFlow's Marketplace Review"
-description: "BookFlow was my first extension, and it never shipped. SourceFlow was the second, and it did. While I waited on its Marketplace review, I built the tool I wished I'd had for both."
+title: "Why I Built woocraft While Waiting for Sellslink's Marketplace Review"
+description: "BookFlow was my first extension, and it never shipped. Sellslink was the second, and it did. While I waited on its Marketplace review, I built the tool I wished I'd had for both."
 author: "Ali Amer"
 tags: ["woocraft", "WooCommerce", "developer tools", "open source"]
 category: General
@@ -13,7 +13,7 @@ BookFlow was my first WooCommerce extension.
 
 I built it, learned a lot building it, and never shipped it.
 
-SourceFlow was the second one, and I did ship that one. I submitted it to the WooCommerce Marketplace, and while it sat in review, I built woocraft.
+Sellslink was the second one, and I did ship that one. I submitted it to the WooCommerce Marketplace, and while it sat in review, I built woocraft.
 
 ## The part nobody talks about
 
@@ -25,11 +25,11 @@ A real extension needs a PSR-4 structure with a Composer autoloader, not a singl
 
 That's not one task. It's ten small ones, and every one of them is a place to get something subtly wrong.
 
-I built all of that by hand for BookFlow first. Then I built most of it again for SourceFlow, because BookFlow never got far enough to ship and SourceFlow needed its own version of the same setup anyway. Same phpcs rules, same PHPStan config, same packaging problem, worked out a second time instead of reused.
+I built all of that by hand for BookFlow first. Then I built most of it again for Sellslink, because BookFlow never got far enough to ship and Sellslink needed its own version of the same setup anyway. Same phpcs rules, same PHPStan config, same packaging problem, worked out a second time instead of reused.
 
 ## Waiting on a review
 
-SourceFlow shipped. I submitted it to the WooCommerce Marketplace and it went into review.
+Sellslink shipped. I submitted it to the WooCommerce Marketplace and it went into review.
 
 The feedback that came back on the codebase itself was good. That mattered more to me than I expected it to, because it meant the PSR-4 structure, the linting, the static analysis, all the setup work I'd repeated by hand across two extensions, had actually paid off. It wasn't wasted effort.
 
@@ -65,7 +65,7 @@ Every extension after that starts from the same scaffold, runs the same checks, 
 
 woocraft is free, open source, and MIT licensed, on [GitHub](https://github.com/PlgCraft/woocraft).
 
-I built this because I had the time and the reason to, waiting on a review that ended up going well. Keeping it to myself wouldn't have made BookFlow or SourceFlow any better. It would have just meant every other WooCommerce developer hitting the same wall I hit twice, and building their own version of the same ten things.
+I built this because I had the time and the reason to, waiting on a review that ended up going well. Keeping it to myself wouldn't have made BookFlow or Sellslink any better. It would have just meant every other WooCommerce developer hitting the same wall I hit twice, and building their own version of the same ten things.
 
 So it's a gift to whoever's about to build their first extension and doesn't want to learn all of this the hard way. And it's the tool I'm going to keep using myself, for BookFlow, and for whatever comes after it.
 

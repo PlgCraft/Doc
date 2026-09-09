@@ -1,4 +1,4 @@
 export { bookFlow } from "./bookflow";
 export { openFeed } from "./openfeed";
-export { sourceFlow } from "./sourceflow";
+export { sellslink } from "./sellslink";
 export { woocraft } from "./woocraft";

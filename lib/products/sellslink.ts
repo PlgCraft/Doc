@@ -2,28 +2,28 @@ import type { Product } from "../data.type";
 import { productStatuses } from "../data.type";
 import { platformBadges } from "../platformBadges";
 
-export const sourceFlow = {
-  id: "sourceflow",
-  name: "SourceFlow",
+export const sellslink = {
+  id: "sellslink",
+  name: "Sellslink",
   shortDescription:
     "See which link, post, or campaign actually turned into revenue, inside WooCommerce, using your own order data. No Google Analytics, no tracking script, no cookie banner.",
   fullDescription: `Every WooCommerce store owner eventually asks the same question: of everything I do to bring people in, what actually made money? The honest answer is usually a shrug, because the tools that could tell you all have a catch.
 
 WooCommerce has had native order attribution built in since version 8.5. It quietly records where each order came from, but the cookie behind it only lasts the browser session, so a click on Monday can't be credited to a purchase on Thursday. It has no idea what a trackable link is, it can't break revenue down by blog post, and the official Analytics extension is still single-currency and in beta. Google Analytics goes further, but it lives outside your store, gets blocked by ad blockers, and brings a consent banner with it. Shopify owners already pay for this kind of visibility because it plainly works. WooCommerce never had a proper version of it.
 
-SourceFlow is that version, built as a real WooCommerce extension rather than a script you paste in. Make a trackable link for a campaign, an email, a podcast read, or a social bio, and SourceFlow follows it with a 30-day first-party cookie, long enough to credit a sale that lands days after the click. If the cookie is gone by checkout, because the shopper cleared it, switched devices, or their browser capped it, SourceFlow falls back to the last link that customer clicked while signed in, so the sale still gets credited to the right place instead of "Direct".
+Sellslink is that version, built as a real WooCommerce extension rather than a script you paste in. Make a trackable link for a campaign, an email, a podcast read, or a social bio, and Sellslink follows it with a 30-day first-party cookie, long enough to credit a sale that lands days after the click. If the cookie is gone by checkout, because the shopper cleared it, switched devices, or their browser capped it, Sellslink falls back to the last link that customer clicked while signed in, so the sale still gets credited to the right place instead of "Direct".
 
 Open any link and you get the full picture: clicks over time, orders, revenue, conversion rate, and average order value, plus where the clicks came from by country, device, and browser, and the actual orders that link produced. Your best email and your worst social channel can bring in the same number of clicks and look nothing alike once you see the conversion rate next to them.
 
-The Overview puts every channel side by side, SourceFlow links and WooCommerce's own attribution together, grouped by currency so a multi-currency store's numbers are never quietly added up. The Content tab takes the landing page WooCommerce already recorded against each order and resolves it back to the real blog post or product page that earned the sale, with nothing to install. The Customers tab shows repeat-purchase rate and the new-versus-returning split per source, because a channel that brings back loyal buyers is worth far more than one that brings one-time bargain hunters, even when this month's revenue looks identical. The Products tab shows what each channel actually sells, so you can match the offer to the audience.
+The Overview puts every channel side by side, Sellslink links and WooCommerce's own attribution together, grouped by currency so a multi-currency store's numbers are never quietly added up. The Content tab takes the landing page WooCommerce already recorded against each order and resolves it back to the real blog post or product page that earned the sale, with nothing to install. The Customers tab shows repeat-purchase rate and the new-versus-returning split per source, because a channel that brings back loyal buyers is worth far more than one that brings one-time bargain hunters, even when this month's revenue looks identical. The Products tab shows what each channel actually sells, so you can match the offer to the audience.
 
-When a SourceFlow link drives a sale that WooCommerce would have filed as "Direct", SourceFlow fills in WooCommerce's own Origin field too, so the native column, WooCommerce Analytics, and SourceFlow all agree instead of telling you three different stories.
+When a Sellslink link drives a sale that WooCommerce would have filed as "Direct", Sellslink fills in WooCommerce's own Origin field too, so the native column, WooCommerce Analytics, and Sellslink all agree instead of telling you three different stories.
 
 All of it runs on WooCommerce's first-party order data. There is no external script slowing the storefront, no consent banner to manage, and no dependency on Google Analytics. It works correctly on stores using High-Performance Order Storage, captures attribution through both the classic checkout and the block checkout, and exports every report to CSV in one click. You control how long click data is kept, and you can wipe it whenever you want.`,
   category: "plugin",
   platform: ["woocommerce"],
   statusId: productStatuses.review.id,
-  icon: "/products/sourceflow/logo.png",
+  icon: "/products/sellslink/logo.png",
   accentColor: "#C2410C",
   version: "0.1.0",
   releaseDate: "----",
@@ -32,13 +32,13 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
     kind: "coming-soon",
   },
   screenshots: [
-    "/products/sourceflow/bg-hero.png",
-    "/products/sourceflow/screen-1.png",
-    "/products/sourceflow/screen-2.png",
-    "/products/sourceflow/screen-3.png",
-    "/products/sourceflow/screen-4.png",
-    "/products/sourceflow/screen-5.png",
-    "/products/sourceflow/screen-6.png",
+    "/products/sellslink/bg-hero.png",
+    "/products/sellslink/screen-1.png",
+    "/products/sellslink/screen-2.png",
+    "/products/sellslink/screen-3.png",
+    "/products/sellslink/screen-4.png",
+    "/products/sellslink/screen-5.png",
+    "/products/sellslink/screen-6.png",
   ],
   features: [
     {
@@ -50,7 +50,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
     {
       title: "Credits the sale even when the cookie is gone",
       description:
-        "If a shopper clears cookies, switches devices, or their browser caps the cookie early, SourceFlow falls back to the last link that customer clicked while signed in. The order still lands on the right source instead of Direct.",
+        "If a shopper clears cookies, switches devices, or their browser caps the cookie early, Sellslink falls back to the last link that customer clicked while signed in. The order still lands on the right source instead of Direct.",
       icon: "refresh-cw",
     },
     {
@@ -62,7 +62,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
     {
       title: "Revenue by channel, links and native together",
       description:
-        "SourceFlow links and WooCommerce's own attribution (direct, organic, paid, referral) side by side, ranked by revenue, grouped by currency so multi-currency totals are never mixed.",
+        "Sellslink links and WooCommerce's own attribution (direct, organic, paid, referral) side by side, ranked by revenue, grouped by currency so multi-currency totals are never mixed.",
       icon: "trending-up",
     },
     {
@@ -80,7 +80,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
     {
       title: "Keeps WooCommerce's own Origin honest",
       description:
-        "When a link drives a sale WooCommerce would have called Direct, SourceFlow fills in the native Origin field too, so WooCommerce Analytics and SourceFlow stop disagreeing. Turn it off with a filter if you would rather it didn't.",
+        "When a link drives a sale WooCommerce would have called Direct, Sellslink fills in the native Origin field too, so WooCommerce Analytics and Sellslink stop disagreeing. Turn it off with a filter if you would rather it didn't.",
       icon: "git-merge",
     },
     {
@@ -106,7 +106,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
   storeLinks: {
     woocommerce: platformBadges.woocommerce,
   },
-  videoDemo: "/products/sourceflow/demo.mp4",
+  videoDemo: "/products/sellslink/demo.mp4",
   testimonials: [],
   featured: true,
   glossary: {
@@ -114,7 +114,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
     heading: "A FEW TERMS",
     headingAccent: "WORTH KNOWING",
     intro:
-      "SourceFlow builds on WooCommerce's own attribution system, so a few terms are worth having straight before you look at the screenshots.",
+      "Sellslink builds on WooCommerce's own attribution system, so a few terms are worth having straight before you look at the screenshots.",
     terms: [
       {
         term: "Native attribution",
@@ -124,17 +124,17 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
       {
         term: "Trackable link",
         definition:
-          "A short link you create in SourceFlow, of the form /sourceflow/your-slug, that points at any page on your store. Every click and every order it leads to is credited back to that exact link.",
+          "A short link you create in Sellslink, of the form /sellslink/your-slug, that points at any page on your store. Every click and every order it leads to is credited back to that exact link.",
       },
       {
         term: "Attribution window",
         definition:
-          "How long a click stays credited to a visitor before it expires. SourceFlow uses a 30-day first-party cookie, well past WooCommerce's session-only default.",
+          "How long a click stays credited to a visitor before it expires. Sellslink uses a 30-day first-party cookie, well past WooCommerce's session-only default.",
       },
       {
         term: "Signed-in fallback",
         definition:
-          "When the click cookie is missing at checkout but the shopper is logged in, SourceFlow credits the order to the last link that account clicked. It rescues attribution that a cleared cookie or a second device would otherwise lose.",
+          "When the click cookie is missing at checkout but the shopper is logged in, Sellslink credits the order to the last link that account clicked. It rescues attribution that a cleared cookie or a second device would otherwise lose.",
       },
       {
         term: "Landing page attribution",
@@ -149,12 +149,12 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
       {
         term: "Native attribution sync",
         definition:
-          "SourceFlow writing its link back into WooCommerce's own Origin field when WooCommerce would otherwise have recorded the sale as Direct, so the two never contradict each other.",
+          "Sellslink writing its link back into WooCommerce's own Origin field when WooCommerce would otherwise have recorded the sale as Direct, so the two never contradict each other.",
       },
       {
         term: "HPOS",
         definition:
-          "WooCommerce's High-Performance Order Storage. Stores on it keep order data outside the standard posts table, which SourceFlow reads and writes correctly.",
+          "WooCommerce's High-Performance Order Storage. Stores on it keep order data outside the standard posts table, which Sellslink reads and writes correctly.",
       },
     ],
   },
@@ -172,10 +172,10 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
           "Revenue, orders, average order value, and the share driven by trackable links up top. Below that, every source that produced a paid order this period, ranked by revenue, with your recent orders and top landing pages next to it. Change the date range and everything follows.",
         images: [
           {
-            src: "/products/sourceflow/overview.png",
+            src: "/products/sellslink/overview.png",
             width: 1760,
             height: 2313,
-            alt: "SourceFlow Overview: revenue by source, recent orders, top pages",
+            alt: "Sellslink Overview: revenue by source, recent orders, top pages",
           },
         ],
       },
@@ -183,10 +183,10 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
         tag: "Make a trackable link",
         title: "Name it, point it at a page, share it",
         description:
-          "Give the link a name only you see, and point it at any page on your store by typing the path. Leave the destination empty and it goes to your home page. SourceFlow builds the short URL for you.",
+          "Give the link a name only you see, and point it at any page on your store by typing the path. Leave the destination empty and it goes to your home page. Sellslink builds the short URL for you.",
         images: [
           {
-            src: "/products/sourceflow/new-link.png",
+            src: "/products/sellslink/new-link.png",
             width: 1056,
             height: 1306,
             alt: "Creating a new trackable link",
@@ -200,7 +200,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
           "Every link with its click count, orders, revenue, and conversion rate, sortable by any column. The chart ranks them by revenue so the winners and the money pits are obvious at a glance.",
         images: [
           {
-            src: "/products/sourceflow/links.png",
+            src: "/products/sellslink/links.png",
             width: 1760,
             height: 1831,
             alt: "The Links tab: trackable links ranked by revenue",
@@ -214,7 +214,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
           "Clicks over the last 30 days, the countries, devices, and browsers they came from, the conversion rate and average order value, and the actual orders that link produced, with customer names and dates.",
         images: [
           {
-            src: "/products/sourceflow/link-detail.png",
+            src: "/products/sellslink/link-detail.png",
             width: 1760,
             height: 2698,
             alt: "A single link's breakdown: clicks, countries, devices, browsers, orders",
@@ -225,10 +225,10 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
         tag: "Trace revenue to content",
         title: "Which blog post or page earned the sale",
         description:
-          "SourceFlow takes the entry page WooCommerce already recorded on each order and resolves it to the real post or product behind it. See which article is quietly doing the selling, ranked by revenue.",
+          "Sellslink takes the entry page WooCommerce already recorded on each order and resolves it to the real post or product behind it. See which article is quietly doing the selling, ranked by revenue.",
         images: [
           {
-            src: "/products/sourceflow/content.png",
+            src: "/products/sellslink/content.png",
             width: 1760,
             height: 2899,
             alt: "Top pages by revenue, resolved from WooCommerce attribution data",
@@ -242,7 +242,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
           "Repeat-purchase rate and the new-versus-returning order split for every source, expandable to the individual customers, with how many orders and how much each has spent.",
         images: [
           {
-            src: "/products/sourceflow/customers.png",
+            src: "/products/sellslink/customers.png",
             width: 1760,
             height: 2201,
             alt: "Customer quality by source: repeat rate, new vs returning",
@@ -256,7 +256,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
           "The top products for every source, so the podcast audience and the Pinterest audience stop getting the same landing page when they clearly want different things.",
         images: [
           {
-            src: "/products/sourceflow/products.png",
+            src: "/products/sellslink/products.png",
             width: 1760,
             height: 3581,
             alt: "Top products by source",
@@ -267,7 +267,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
     closing: {
       title: "Your own order data, finally readable.",
       description:
-        "No tracking script, no consent banner, no Analytics account. SourceFlow reads what WooCommerce already knows and shows you which marketing paid for itself.",
+        "No tracking script, no consent banner, no Analytics account. Sellslink reads what WooCommerce already knows and shows you which marketing paid for itself.",
       badges: [
         "30-day first-party window",
         "Links and native side by side",

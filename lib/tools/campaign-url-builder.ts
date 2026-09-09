@@ -44,7 +44,7 @@ Turn on "Auto-fill for Google Ads" and Campaign, Term, and Content switch to Goo
     {
       title: "Copy the tagged link",
       description:
-        "Use it in your ad, email, or social post. WooCommerce (with a UTM-aware plugin like SourceFlow) can now attribute the resulting order to this exact campaign.",
+        "Use it in your ad, email, or social post. WooCommerce (with a UTM-aware plugin like Sellslink) can now attribute the resulting order to this exact campaign.",
     },
   ],
   faqs: [
@@ -71,7 +71,7 @@ Turn on "Auto-fill for Google Ads" and Campaign, Term, and Content switch to Goo
     {
       question: "Will this tag actually show up correctly in WooCommerce?",
       answer:
-        "The link itself is standards-compliant UTM tagging, so it works with WooCommerce, Google Analytics, and any tool that reads UTM parameters. Whether WooCommerce turns that into per-order attribution depends on what's tracking it, plain WooCommerce doesn't store UTMs on the order by default, which is exactly the gap a plugin like SourceFlow closes.",
+        "The link itself is standards-compliant UTM tagging, so it works with WooCommerce, Google Analytics, and any tool that reads UTM parameters. Whether WooCommerce turns that into per-order attribution depends on what's tracking it, plain WooCommerce doesn't store UTMs on the order by default, which is exactly the gap a plugin like Sellslink closes.",
     },
   ],
   featured: true,

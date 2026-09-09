@@ -15,6 +15,22 @@ const config = {
   turbopack: {
     root: __dirname,
   },
+  async redirects() {
+    return [
+      // SourceFlow was renamed to Sellslink. 301 the old product page and
+      // its assets so existing links and search results keep working.
+      {
+        source: "/project/sourceflow",
+        destination: "/project/sellslink",
+        statusCode: 301,
+      },
+      {
+        source: "/products/sourceflow/:path*",
+        destination: "/products/sellslink/:path*",
+        statusCode: 301,
+      },
+    ];
+  },
 };
 
 export default withMDX(config);

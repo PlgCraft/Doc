@@ -288,11 +288,11 @@ export const CampaignUrlBuilderWidget = () => {
       >
         <p className="text-sm text-gray-700 max-w-2xl">
           Building the link is the easy part. Knowing which one actually turned into revenue is the
-          harder question — that&apos;s what <strong>SourceFlow</strong> does natively inside
+          harder question — that&apos;s what <strong>Sellslink</strong> does natively inside
           WooCommerce, no separate script or Analytics headache required.
         </p>
         <Link
-          href="/project/sourceflow"
+          href="/project/sellslink"
           className="inline-flex items-center gap-2 bg-black text-white px-5 py-3 font-bold brutalist-shadow-sm brutalist-hover whitespace-nowrap"
         >
           <Wand2 size={16} /> SEE HOW IT WORKS
