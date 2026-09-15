@@ -6,9 +6,15 @@ import { BlogCardContainer } from "./AnimatedContainer";
 import { Reveal } from "@/components/Reveal";
 
 export const BlogsSection = () => {
-  const blogs = blog.getPages()?.sort(
-    (a, b) => Number(b.data.featured) - Number(a.data.featured)
-  ).slice(0, 6);
+  const blogs = blog
+    .getPages()
+    .sort((a, b) => {
+      const featured = Number(b.data.featured) - Number(a.data.featured);
+      if (featured !== 0) return featured;
+
+      return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+    })
+    .slice(0, 6);
   if (!blogs || blogs.length === 0) return null;
 
   return (

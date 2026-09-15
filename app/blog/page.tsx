@@ -35,7 +35,7 @@ export default async function Home({ searchParams }: Parms) {
     const matchesCategory = !category || postCategory === category;
 
     return matchesSearch && matchesCategory;
-  });
+  }).sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
   return (
     <main className="min-h-screen bg-white">
