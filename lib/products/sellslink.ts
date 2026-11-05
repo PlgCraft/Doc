@@ -26,10 +26,12 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
   icon: "/products/sellslink/logo.png",
   accentColor: "#C2410C",
   version: "0.1.0",
-  releaseDate: "----",
+  releaseDate: "05.11.2026",
   pricing: {
-    label: "Coming soon",
-    kind: "coming-soon",
+    label: "1-year",
+    amount: 129,
+    currency: "$",
+    kind: "paid",
   },
   screenshots: [
     "/products/sellslink/bg-hero.png",
@@ -104,7 +106,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
   ],
   techStack: ["WooCommerce", "PHP", "React", "Vite", "MySQL", "WordPress REST API"],
   storeLinks: {
-    woocommerce: platformBadges.woocommerce,
+  woocommerce: {...platformBadges.woocommerce, href: "https://woocommerce.com/products/sellslink"},
   },
   videoDemo: "/products/sellslink/demo.mp4",
   testimonials: [],
