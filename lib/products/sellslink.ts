@@ -28,7 +28,7 @@ All of it runs on WooCommerce's first-party order data. There is no external scr
   version: "0.1.0",
   releaseDate: "05.11.2026",
   pricing: {
-    label: "1-year",
+    label: "$129 1-year plan",
     amount: 129,
     currency: "$",
     kind: "paid",
